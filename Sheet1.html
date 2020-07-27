@@ -88,11 +88,15 @@ d3.csv("Sheet_1_data.csv", function(data) {
   // A function that change this tooltip when the leaves a point: just need to set opacity to 0 again
   var mouseleave = function(d) {
     tooltip
-      .style("top",  "0px")
-      .style("left",  "0px")
       .transition()
       .duration(100)
       .style("opacity", 0)
+
+    tooltip
+      .style("top",  "0px")
+      .style("left",  "0px")
+
+
 
   }
 
