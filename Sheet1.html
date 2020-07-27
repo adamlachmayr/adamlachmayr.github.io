@@ -198,9 +198,20 @@ d3.csv("Sheet_1_data.csv", function(data) {
   }
 
   d3.select("button#a").on("click", function() {
+    // recover the new scale
+    var newX = d3.event.transform.rescaleX(x);
+    var newY = d3.event.transform.rescaleY(y);
+
+    // update axes with these new boundaries
+    xAxis.call(d3.axisBottom(newX))
+    yAxis.call(d3.axisLeft(newY))
+
+    // update circle position
     scatter
       .selectAll("circle")
-      .style("fill", "#F8766D" )
+      .attr('cx', function(d) {return newX(d.Population)})
+      .attr('cy', function(d) {return newY(d.Population)});
+      
   })
 
     d3.select("button#b").on("click", function() {
