@@ -58,7 +58,7 @@ d3.csv("Sheet_1_data.csv", function(data) {
 var xAxisO = xAxis;
   // Add Y axis
   var y = d3.scaleLinear()
-    .domain([0, 5000000])
+    .domain([0, 85000])
     .range([ height, 0]);
   var yAxis =svg.append("g")
     .call(d3.axisLeft(y));
@@ -178,7 +178,7 @@ var yAxisO = yAxis;
     .enter()
     .append("circle")
       .attr("cx", function (d) { return x(d.Population); } )
-      .attr("cy", function (d) { return y(d.Deaths); } )
+      .attr("cy", function (d) { return y(d.Drugs); } )
       .attr("r", 7)
       .style("fill", function (d) { return StateColors(d.StateCode) } )
       //.style("fill", "#F8766D" )
@@ -205,7 +205,7 @@ var yAxisO = yAxis;
     scatter
       .selectAll("circle")
       .attr('cx', function(d) {return newX(d.Population)})
-      .attr('cy', function(d) {return newY(d.Deaths)});
+      .attr('cy', function(d) {return newY(d.Drugs)});
   }
   // function updateChartC() {
 
