@@ -217,7 +217,8 @@ d3.csv("Sheet_1_data.csv", function(data) {
     d3.select("button#b").on("click", function() {
     scatter
       .selectAll("circle")
-      .style("fill", "#00FF00" )
+      .attr('cx', function(d) {return newX(d.Population)})
+      .attr('cy', function(d) {return newY(d.Alc)});
   })
 
   d3.select("button#c").on("click", function() {
