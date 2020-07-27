@@ -178,7 +178,7 @@ var yAxisO = yAxis;
     .enter()
     .append("circle")
       .attr("cx", function (d) { return x(d.Population); } )
-      .attr("cy", function (d) { return y(d.Drugs); } )
+      .attr("cy", function (d) { return y(d.Drug); } )
       .attr("r", 7)
       .style("fill", function (d) { return StateColors(d.StateCode) } )
       //.style("fill", "#F8766D" )
@@ -205,7 +205,7 @@ var yAxisO = yAxis;
     scatter
       .selectAll("circle")
       .attr('cx', function(d) {return newX(d.Population)})
-      .attr('cy', function(d) {return newY(d.Drugs)});
+      .attr('cy', function(d) {return newY(d.Drug)});
   }
   // function updateChartC() {
 
