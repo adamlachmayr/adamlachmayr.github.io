@@ -214,19 +214,11 @@ d3.csv("Sheet_1_data.csv", function(data) {
   }
 
   d3.select("button#a").on("click", function() {
-    // recover the new scale
-    var newX = d3.event.transform.rescaleX(x);
-    var newY = d3.event.transform.rescaleY(y);
-
-    // update axes with these new boundaries
-    xAxis.call(d3.axisBottom(newX))
-    yAxis.call(d3.axisLeft(newY))
-
-    // update circle position
     scatter
-      .selectAll("circle")
-      .attr('cx', function(d) {return newX(d.Population)})
-      .attr('cy', function(d) {return newY(d.Drug)});
+    .selectAll("circle")
+      .attr("cx", function (d) { return x(d.Population); } )
+      .attr("cy", function (d) { return y(d.Deaths); } )
+
 
   })
 
@@ -235,19 +227,14 @@ d3.csv("Sheet_1_data.csv", function(data) {
     .selectAll("circle")
       .attr("cx", function (d) { return x(d.Population); } )
       .attr("cy", function (d) { return y(d.Drug); } )
-    //   .attr("r", 7)
-    //   .style("fill", function (d) { return StateColors(d.StateCode) } )
-    //   .style("fill", "#F8766D" )
-    //   .style("opacity", 0.8)
-    //   .style("stroke", "black")
-    // .on("mouseover", mouseover )
-    // .on("mousemove", mousemove )
-    // .on("mouseleave", mouseleave )
 
   })
 
   d3.select("button#c").on("click", function(d) {
-    updateChartC()
+    scatter
+    .selectAll("circle")
+      .attr("cx", function (d) { return x(d.Population); } )
+      .attr("cy", function (d) { return y(d.Alc); } )
   })
 
 
