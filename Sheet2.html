@@ -86,15 +86,14 @@ d3.csv("Sheet_2_data.csv", function(data) {
     .range(["#FF0000","#0000FF", "#00FF00"]);
 
 
-  var color = d3.scaleOrdinal()
-    .domain(["Wyoming", "Wisconsin", "New Hampshire" ])
-    .range([ "#F8766D", "#00BA38", "#619CFF"])
+  // var color = d3.scaleOrdinal()
+  //   .domain(["Wyoming", "Wisconsin", "New Hampshire" ])
+  //   .range([ "#F8766D", "#00BA38", "#619CFF"])
 
-  //     // Size
-  // var Size = d3.scale
-  //   .linear()
-  //   .domain([.00207102, .00456779])
-  //   .range([1, 20])
+      // Size
+  var Size = d3.scaleLinear()
+    .domain([72206, 4844053])
+    .range([1, 20])
 
   // Add dots
   svg.append('g')
@@ -104,7 +103,8 @@ d3.csv("Sheet_2_data.csv", function(data) {
     .append("circle")
       .attr("cx", function (d) { return x(d.Population); } )
       .attr("cy", function (d) { return y(d.NormalizedDeaths); } )
-      .attr("r", 7)
+      //.attr("r", 7)
+      .attr("r", function (d) { return Size(d.Deaths) })
       .style("fill", function (d) { return StateColors(d.StateCode) } )
       .style("fill", "#F8766D" )
       .style("opacity", 0.8)
