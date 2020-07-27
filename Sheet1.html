@@ -87,7 +87,7 @@ d3.csv("Sheet_1_data.csv", function(data) {
   var colorP = d3.scaleOrdinal(d3.schemeCategory50);
   var StateColors = d3.scaleOrdinal()
     .domain([1, 51])
-    .range([colorP]);
+    .range([colorP(0), colorP(1)]);
 
 
   // var color = d3.scaleOrdinal()
