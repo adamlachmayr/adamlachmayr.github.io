@@ -25,6 +25,10 @@ var svg = d3.select("#my_dataviz")
     .attr("transform",
           "translate(" + margin.left + "," + margin.top + ")");
 
+  var color = d3.scaleOrdinal()
+    .domain(["Wyoming", "Wisconsin", "New Hampshire" ])
+    .range([ "#F8766D", "#00BA38", "#619CFF"])
+
 //Read the data
 d3.csv("Sheet_1_data.csv", function(data) {
 
@@ -86,9 +90,9 @@ d3.csv("Sheet_1_data.csv", function(data) {
   //   .domain([1, 51])
   //   .range(["#87CEFF", "#0000FF"])
 
-  var color = d3.scaleOrdinal()
-    .domain(["Wyoming", "Wisconsin", "New Hampshire" ])
-    .range([ "#F8766D", "#00BA38", "#619CFF"])
+  // var color = d3.scaleOrdinal()
+  //   .domain(["Wyoming", "Wisconsin", "New Hampshire" ])
+  //   .range([ "#F8766D", "#00BA38", "#619CFF"])
 
   //     // Size
   // var Size = d3.scale
