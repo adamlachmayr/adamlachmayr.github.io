@@ -24,6 +24,7 @@ var svg = d3.select("#my_dataviz")
   .append("g")
     .attr("transform",
           "translate(" + margin.left + "," + margin.top + ")");
+
       // Add a tooltip div. Here I define the general feature of the tooltip: stuff that do not depend on the data point.
   // Its opacity is set to 0: we don't see it by default.
   var tooltip = d3.select("#my_dataviz")
@@ -34,7 +35,8 @@ var svg = d3.select("#my_dataviz")
     .style("border", "solid")
     .style("border-width", "1px")
     .style("border-radius", "5px")
-    .style("padding", "10px");
+    .style("padding", "10px")
+    .style("position", "absolute");
 
 //Read the data
 d3.csv("Sheet_1_data.csv", function(data) {
