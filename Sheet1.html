@@ -5,10 +5,11 @@
 <!-- Load d3.js -->
 <script src="https://d3js.org/d3.v4.js"></script>
 
-<button onclick="update(1)">Alcohol and Drugs</button>
-<button onclick="update(2)">Alcohol</button>
-<button onclick="update(3)">Drugs</button>
-
+<div class="buttons" style="width: 300px; text-align: center;">
+  <button id="a" style="width:50px;">A</button>
+  <button id="b" style="width:50px;">B</button>
+  <button id="c" style="width:50px;">C</button>
+</div>
 
 <!-- Create a div where the graph will take place -->
 <div id="my_dataviz"></div>
@@ -196,14 +197,22 @@ d3.csv("Sheet_1_data.csv", function(data) {
       .attr('cy', function(d) {return newY(d.Deaths)});
   }
 
+  d3.select("button#a").on("click", function() {
+    scatter
+      .selectAll("circle")
+      .style("fill", "#F8766D" )
+
+
+  })
+
 
 })
 
-function update(Flag) {
-  d3.selectAll("circle")
-      .attr('cx', function(d) {return newX(d.Population)})
-      .attr('cy', function(d) {return newY()});
+// function update(Flag) {
+//   d3.selectAll("circle")
+//       .attr('cx', function(d) {return newX(d.Population)})
+//       .attr('cy', function(d) {return newY()});
 
-  }
+//   }
 
 </script>
