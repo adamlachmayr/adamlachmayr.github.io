@@ -43,8 +43,8 @@ d3.csv("Sheet_3_data.csv", function(data) {
       .thresholds(x.ticks(40)); // then the numbers of bins
 
   // And apply twice this function to data to get the bins.
-  var bins1 = histogram(data.filter( function(d){return d.type === "variable 1"} ));
-  var bins2 = histogram(data.filter( function(d){return d.type === "variable 2"} ));
+  var bins1 = histogram(data.filter( function(d){return d.DrugAlcohol === "Alcohol-induced causes"} ));
+  var bins2 = histogram(data.filter( function(d){return d.DrugAlcohol === "Drug-induced causes"} ));
 
   // Y axis: scale and draw:
   var y = d3.scaleLinear()
