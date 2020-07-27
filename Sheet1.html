@@ -55,13 +55,14 @@ d3.csv("Sheet_1_data.csv", function(data) {
     .attr("transform", "translate(0," + height + ")")
     .call(d3.axisBottom(x));
 
+var xAxisO = xAxis
   // Add Y axis
   var y = d3.scaleLinear()
     .domain([0, 5000000])
     .range([ height, 0]);
   var yAxis =svg.append("g")
     .call(d3.axisLeft(y));
-
+var yAxisO = yAxis
   // // Add a tooltip div. Here I define the general feature of the tooltip: stuff that do not depend on the data point.
   // // Its opacity is set to 0: we don't see it by default.
   // var tooltip = d3.select("#my_dataviz")
@@ -220,21 +221,9 @@ d3.csv("Sheet_1_data.csv", function(data) {
 
 
   d3.select("button#a").on("click", function() {
-      var x = d3.scaleLinear()
-    .domain([0, 2100000000])
-    .range([ 0, width ]);
-  var xAxis = svg.append("g")
-    .attr("transform", "translate(0," + height + ")")
-    .call(d3.axisBottom(x));
+  yAxis = yAxisO
+  xAxis = xAxisO
 
-  // Add Y axis
-  var y = d3.scaleLinear()
-    .domain([0, 5000000])
-    .range([ height, 0]);
-  var yAxis =svg.append("g")
-    .call(d3.axisLeft(y));
-
-    
     scatter
     .selectAll("circle")
       .attr("cx", function (d) { return x(d.Population); } )
