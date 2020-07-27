@@ -66,7 +66,7 @@ d3.csv("Sheet_1_data.csv", function(data) {
 
   var mousemove = function(d) {
     tooltip
-      .html("The exact value of<br>the Ground Living area is: " + d.Deaths)
+      .html(d.State + "<br>" + "Population: " + d.Population + "<br>" + "Deaths from Alc and OD: " + d.Deaths)
       .style("left", (d3.mouse(this)[0]+90) + "px") // It is important to put the +90: other wise the tooltip is exactly where the point is an it creates a weird effect
       .style("top", (d3.mouse(this)[1]) + "px")
   }
