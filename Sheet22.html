@@ -39,7 +39,7 @@ var svg = d3.select("#my_dataviz")
     .style("position", "absolute");
 
 //Read the data
-d3.csv("Sheet_1_data.csv", function(data) {
+d3.csv("Sheet_2_data.csv", function(data) {
 
   // Add X axis
   var x = d3.scaleLinear()
@@ -51,7 +51,7 @@ d3.csv("Sheet_1_data.csv", function(data) {
 
   // Add Y axis
   var y = d3.scaleLinear()
-    .domain([0, 5000000])
+    .domain([0, .0048])
     .range([ height, 0]);
   var yAxis =svg.append("g")
     .call(d3.axisLeft(y));
@@ -162,7 +162,8 @@ d3.csv("Sheet_1_data.csv", function(data) {
     .append("circle")
       .attr("cx", function (d) { return x(d.Population); } )
       .attr("cy", function (d) { return y(d.Deaths); } )
-      .attr("r", 7)
+      //.attr("r", 7)
+      .attr("r", function (d) { return Size(d.Deaths) })
       .style("fill", function (d) { return StateColors(d.StateCode) } )
       //.style("fill", "#F8766D" )
       .style("opacity", 0.8)
