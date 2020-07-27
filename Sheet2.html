@@ -106,7 +106,7 @@ d3.csv("Sheet_2_data.csv", function(data) {
       //.attr("r", 7)
       .attr("r", function (d) { return Size(d.Deaths) })
       .style("fill", function (d) { return StateColors(d.StateCode) } )
-      .style("fill", "#F8766D" )
+      //.style("fill", "#F8766D" )
       .style("opacity", 0.8)
       .style("stroke", "white")
     .on("mouseover", mouseover )
