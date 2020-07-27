@@ -1,0 +1,272 @@
+<!-- Code from d3-graph-gallery.com -->
+<!DOCTYPE html>
+<meta charset="utf-8">
+
+<!-- Load d3.js -->
+<script src="https://d3js.org/d3.v4.js"></script>
+
+<div class="buttons" style="width: 300px; text-align: center;">
+  <button id="a" style="width:50px;">A</button>
+  <button id="b" style="width:50px;">B</button>
+  <button id="c" style="width:50px;">C</button>
+</div>
+
+<!-- Create a div where the graph will take place -->
+<div id="my_dataviz"></div>
+
+
+<script>
+
+// set the dimensions and margins of the graph
+var margin = {top: 10, right: 30, bottom: 30, left: 60},
+    width = 860 - margin.left - margin.right,
+    height = 850 - margin.top - margin.bottom;
+
+// append the svg object to the body of the page
+var svg = d3.select("#my_dataviz")
+  .append("svg")
+    .attr("width", width + margin.left + margin.right)
+    .attr("height", height + margin.top + margin.bottom)
+  .append("g")
+    .attr("transform",
+          "translate(" + margin.left + "," + margin.top + ")");
+
+      // Add a tooltip div. Here I define the general feature of the tooltip: stuff that do not depend on the data point.
+  // Its opacity is set to 0: we don't see it by default.
+  var tooltip = d3.select("#my_dataviz")
+    .append("div")
+    .style("opacity", 0)
+    .attr("class", "tooltip")
+    .style("background-color", "white")
+    .style("border", "solid")
+    .style("border-width", "1px")
+    .style("border-radius", "5px")
+    .style("padding", "10px")
+    .style("position", "absolute");
+
+//Read the data
+d3.csv("Sheet_1_data.csv", function(data) {
+
+  // Add X axis
+  var x = d3.scaleLinear()
+    .domain([0, 2100000000])
+    .range([ 0, width ]);
+  var xAxis = svg.append("g")
+    .attr("transform", "translate(0," + height + ")")
+    .call(d3.axisBottom(x));
+
+var xAxisO = xAxis;
+  // Add Y axis
+  var y = d3.scaleLinear()
+    .domain([0, 5000000])
+    .range([ height, 0]);
+  var yAxis =svg.append("g")
+    .call(d3.axisLeft(y));
+var yAxisO = yAxis;
+  // // Add a tooltip div. Here I define the general feature of the tooltip: stuff that do not depend on the data point.
+  // // Its opacity is set to 0: we don't see it by default.
+  // var tooltip = d3.select("#my_dataviz")
+  //   .append("div")
+  //   .style("opacity", 0)
+  //   .attr("class", "tooltip")
+  //   .style("background-color", "white")
+  //   .style("border", "solid")
+  //   .style("border-width", "1px")
+  //   .style("border-radius", "5px")
+  //   .style("padding", "10px")
+
+
+
+  // A function that change this tooltip when the user hover a point.
+  // Its opacity is set to 1: we can now see it. Plus it set the text and position of tooltip depending on the datapoint (d)
+  var mouseover = function(d) {
+    tooltip
+      .style("opacity", 1)
+
+       d3.selectAll(".")
+      .transition()
+      .duration(200)
+      .style("fill", color("#FF0000"))
+      .attr("r", 7)
+
+
+
+  }
+
+  var mousemove = function(d) {
+    tooltip
+      .html(d.State + "<br>" + "Population: " + d.Population + "<br>" + "Deaths from Alc and OD: " + d.Deaths)
+      .style("left", (d3.mouse(this)[0]+90) + "px") // It is important to put the +90: other wise the tooltip is exactly where the point is an it creates a weird effect
+      .style("top", (d3.mouse(this)[1]) + "px")
+
+
+  }
+
+
+  // A function that change this tooltip when the leaves a point: just need to set opacity to 0 again
+  var mouseleave = function(d) {
+    tooltip
+      .transition()
+      .duration(100)
+      .style("opacity", 0)
+
+
+
+
+
+  }
+
+  //COLORS
+  var colorP = d3.schemeCategory20;
+  var BcolorP = d3.schemeCategory20b;
+  var CcolorP = d3.schemeCategory20c;
+
+  var StateColors = d3.scaleOrdinal()
+    .domain([1, 51])
+    .range([colorP[0], colorP[1], colorP[2], colorP[3], colorP[4], colorP[5], colorP[6], colorP[7], colorP[8], colorP[9], colorP[10], colorP[11], colorP[12], colorP[13], colorP[14], colorP[15], colorP[16], colorP[17], colorP[18], colorP[19], BcolorP[0], BcolorP[1], BcolorP[2], BcolorP[3], BcolorP[4], BcolorP[5], BcolorP[6], BcolorP[7], BcolorP[8], BcolorP[9], BcolorP[10], BcolorP[11], BcolorP[12], BcolorP[13], BcolorP[14], BcolorP[15], BcolorP[16], BcolorP[17], BcolorP[18], BcolorP[19], CcolorP[0], CcolorP[1], CcolorP[2], CcolorP[3], CcolorP[4], CcolorP[5], CcolorP[6], CcolorP[7], CcolorP[8], CcolorP[9], CcolorP[10]    ]);
+
+          // Size
+  var Size = d3.scaleLinear()
+    .domain([72206, 4844053])
+    .range([5, 50])
+
+
+
+
+
+
+    // Add a clipPath: everything out of this area won't be drawn.
+  var clip = svg.append("defs").append("svg:clipPath")
+      .attr("id", "clip")
+      .append("svg:rect")
+      .attr("width", width )
+      .attr("height", height )
+      .attr("x", 0)
+      .attr("y", 0);
+
+           // Set the zoom and Pan features: how much you can zoom, on which part, and what to do when there is a zoom
+  var zoom = d3.zoom()
+      .scaleExtent([.5, 20])  // This control how much you can unzoom (x0.5) and zoom (x20)
+      .extent([[0, 0], [width, height]])
+      .on("zoom", updateChart);
+
+
+  // This add an invisible rect on top of the chart area. This rect can recover pointer events: necessary to understand when the user zoom
+  svg.append("rect")
+      .attr("width", width)
+      .attr("height", height)
+      .style("fill", "none")
+      .style("pointer-events", "all")
+      .attr('transform', 'translate(' + margin.left + ',' + margin.top + ')')
+      .call(zoom);
+  // now the user can zoom and it will trigger the function called updateChart
+
+
+
+
+
+
+// Create the scatter variable: where both the circles and the brush take place
+  var scatter = svg.append('g')
+    .attr("clip-path", "url(#clip)")
+
+  // Add dots
+  //svg.append('g')
+  scatter
+    .selectAll("circle")
+    .data(data.filter(function(d,i){return i<50})) // the .filter part is just to keep a few dots on the chart, not all of them
+    .enter()
+    .append("circle")
+      .attr("cx", function (d) { return x(d.Population); } )
+      .attr("cy", function (d) { return y(d.Deaths); } )
+      .attr("r", 7)
+      .style("fill", function (d) { return StateColors(d.StateCode) } )
+      //.style("fill", "#F8766D" )
+      .style("opacity", 0.8)
+      .style("stroke", "black")
+    .on("mouseover", mouseover )
+    .on("mousemove", mousemove )
+    .on("mouseleave", mouseleave )
+
+
+
+  // A function that updates the chart when the user zoom and thus new boundaries are available
+  function updateChart() {
+
+    // recover the new scale
+    var newX = d3.event.transform.rescaleX(x);
+    var newY = d3.event.transform.rescaleY(y);
+
+    // update axes with these new boundaries
+    xAxis.call(d3.axisBottom(newX))
+    yAxis.call(d3.axisLeft(newY))
+
+    // update circle position
+    scatter
+      .selectAll("circle")
+      .attr('cx', function(d) {return newX(d.Population)})
+      .attr('cy', function(d) {return newY(d.Drugs)});
+  }
+  // function updateChartC() {
+
+  //   // recover the new scale
+  //   var newX = d3.event.transform.rescaleX(x);
+  //   var newY = d3.event.transform.rescaleY(y);
+
+  //   // update axes with these new boundaries
+  //   xAxis.call(d3.axisBottom(newX))
+  //   yAxis.call(d3.axisLeft(newY))
+
+  //   // update circle position
+  //   scatter
+  //     .selectAll("circle")
+  //     .attr('cx', function(d) {return newX(d.Population)})
+  //     .attr('cy', function(d) {return newY(d.Alc)});
+  // }
+
+
+
+
+
+
+
+  // d3.select("button#a").on("click", function(d) {
+
+
+  //   xAxis.call(d3.axisBottom( xAxisO))
+  //   yAxis.call(d3.axisLeft( yAxisO))
+
+  //   scatter
+  //   .selectAll("circle")
+  //     .attr("cx", function (d) { return x(d.Population); } )
+  //     .attr("cy", function (d) { return y(d.Deaths); } )
+
+
+  // })
+
+  //   d3.select("button#b").on("click", function(d) {
+  //    scatter
+  //   .selectAll("circle")
+  //     .attr("cx", function (d) { return x(d.Population); } )
+  //     .attr("cy", function (d) { return y(d.Drug); } )
+
+  // })
+
+  // d3.select("button#c").on("click", function(d) {
+  //   scatter
+  //   .selectAll("circle")
+  //     .attr("cx", function (d) { return x(d.Population); } )
+  //     .attr("cy", function (d) { return y(d.Alc); } )
+  // })
+
+
+})
+
+// function update(Flag) {
+//   d3.selectAll("circle")
+//       .attr('cx', function(d) {return newX(d.Population)})
+//       .attr('cy', function(d) {return newY()});
+
+//   }
+
+</script>
