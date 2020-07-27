@@ -108,7 +108,7 @@ d3.csv("Sheet_1_data.csv", function(data) {
     .selectAll("dot")
     .data(data.filter(function(d,i){return i<50})) // the .filter part is just to keep a few dots on the chart, not all of them
     .enter()
-    .append("circle")
+    .append("dot")
       .attr("cx", function (d) { return x(d.Population); } )
       .attr("cy", function (d) { return y(d.Deaths); } )
       .attr("r", 7)
