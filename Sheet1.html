@@ -80,7 +80,7 @@ d3.csv("Sheet_1_data.csv", function(data) {
       .style("opacity", 0)
   }
 
-  // colors for foo
+  // colors
   var StateColors = d3.scale
     .linear()
     .domain([1, 51])
@@ -89,6 +89,12 @@ d3.csv("Sheet_1_data.csv", function(data) {
   var color = d3.scaleOrdinal()
     .domain(["Wyoming", "Wisconsin", "New Hampshire" ])
     .range([ "#F8766D", "#00BA38", "#619CFF"])
+
+      // Size
+  var Size = d3.scale
+    .linear()
+    .domain([.00207102, .00456779])
+    .range([1, 20])
 
   // Add dots
   svg.append('g')
