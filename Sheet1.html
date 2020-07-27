@@ -105,10 +105,10 @@ d3.csv("Sheet_1_data.csv", function(data) {
   // Add dots
   //svg.append('g')
   scatter
-    .selectAll("dot")
+    .selectAll("circle")
     .data(data.filter(function(d,i){return i<50})) // the .filter part is just to keep a few dots on the chart, not all of them
     .enter()
-    .append("dot")
+    .append("circle")
       .attr("cx", function (d) { return x(d.Population); } )
       .attr("cy", function (d) { return y(d.Deaths); } )
       .attr("r", 7)
@@ -150,7 +150,7 @@ d3.csv("Sheet_1_data.csv", function(data) {
 
     // update circle position
     scatter
-      .selectAll("dot")
+      .selectAll("circle")
       .attr('cx', function(d) {return newX(d.Sepal_Length)})
       .attr('cy', function(d) {return newY(d.Petal_Length)});
   }
