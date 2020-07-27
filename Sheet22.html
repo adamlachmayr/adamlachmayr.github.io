@@ -161,7 +161,7 @@ d3.csv("Sheet_2_data.csv", function(data) {
     .enter()
     .append("circle")
       .attr("cx", function (d) { return x(d.Population); } )
-      .attr("cy", function (d) { return y(d.Deaths); } )
+      .attr("cy", function (d) { return y(d.NormalizedDeaths); } )
       //.attr("r", 7)
       .attr("r", function (d) { return Size(d.Deaths) })
       .style("fill", function (d) { return StateColors(d.StateCode) } )
