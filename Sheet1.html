@@ -221,8 +221,10 @@ var yAxisO = yAxis
 
 
   d3.select("button#a").on("click", function() {
-  yAxis = yAxisO
-  xAxis = xAxisO
+
+
+    xAxis.call(d3.axisBottom(  yAxisO))
+    yAxis.call(d3.axisLeft(  xAxisO))
 
     scatter
     .selectAll("circle")
