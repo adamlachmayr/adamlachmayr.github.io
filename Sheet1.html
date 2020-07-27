@@ -84,10 +84,10 @@ d3.csv("Sheet_1_data.csv", function(data) {
   // var StateColors = d3.scaleLinear()
   //   .domain([1, 51])
   //   .range(["#FF0000","#0000FF", "#00FF00"]);
-
+  var colorP = d3.scaleOrdinal(d3.schemeCategory50);
   var StateColors = d3.scaleOrdinal()
     .domain([1, 51])
-    .range([d3.scale.category51()]);
+    .range([colorP]);
 
 
   // var color = d3.scaleOrdinal()
