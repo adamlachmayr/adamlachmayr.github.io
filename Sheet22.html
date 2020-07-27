@@ -189,7 +189,7 @@ d3.csv("Sheet_2_data.csv", function(data) {
     scatter
       .selectAll("circle")
       .attr('cx', function(d) {return newX(d.Population)})
-      .attr('cy', function(d) {return newY(d.Deaths)});
+      .attr('cy', function(d) {return newY(d.NormalizedDeaths)});
   }
 
 })
