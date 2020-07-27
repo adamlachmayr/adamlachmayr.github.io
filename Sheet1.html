@@ -214,7 +214,7 @@ d3.csv("Sheet_1_data.csv", function(data) {
 
   })
 
-    d3.select("button#b").on("click", function() {
+    d3.select("button#b").on("click", function(d) {
      scatter
     .selectAll("circle")
     .data(data.filter(function(d,i){return i<50})) // the .filter part is just to keep a few dots on the chart, not all of them
