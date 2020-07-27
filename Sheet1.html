@@ -32,7 +32,7 @@ d3.csv("Sheet_1_data.csv", function(data) {
   var x = d3.scaleLinear()
     .domain([0, 2100000000])
     .range([ 0, width ]);
-  svg.append("g")
+  var xAxis = svg.append("g")
     .attr("transform", "translate(0," + height + ")")
     .call(d3.axisBottom(x));
 
@@ -40,7 +40,7 @@ d3.csv("Sheet_1_data.csv", function(data) {
   var y = d3.scaleLinear()
     .domain([0, 5000000])
     .range([ height, 0]);
-  svg.append("g")
+  var yAxis =svg.append("g")
     .call(d3.axisLeft(y));
 
   // Add a tooltip div. Here I define the general feature of the tooltip: stuff that do not depend on the data point.
