@@ -207,13 +207,13 @@ d3.csv("Sheet_1_data.csv", function(data) {
     yAxis.call(d3.axisLeft(newY))
 
     // update circle position
-    if(Flag == 1){
+    //if(Flag == 1){
     scatter
       .selectAll("circle")
       .attr('cx', function(d) {return newX(d.Population)})
       .attr('cy', function(d) {return newY(d.Population)});
 
-    }
+    //}
 
   }
 
