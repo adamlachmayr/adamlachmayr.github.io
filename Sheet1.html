@@ -230,34 +230,34 @@ var yAxisO = yAxis;
 
 
 
-  d3.select("button#a").on("click", function(d) {
+  // d3.select("button#a").on("click", function(d) {
 
 
-    xAxis.call(d3.axisBottom( xAxisO))
-    yAxis.call(d3.axisLeft( yAxisO))
+  //   xAxis.call(d3.axisBottom( xAxisO))
+  //   yAxis.call(d3.axisLeft( yAxisO))
 
-    scatter
-    .selectAll("circle")
-      .attr("cx", function (d) { return x(d.Population); } )
-      .attr("cy", function (d) { return y(d.Deaths); } )
+  //   scatter
+  //   .selectAll("circle")
+  //     .attr("cx", function (d) { return x(d.Population); } )
+  //     .attr("cy", function (d) { return y(d.Deaths); } )
 
 
-  })
+  // })
 
-    d3.select("button#b").on("click", function(d) {
-     scatter
-    .selectAll("circle")
-      .attr("cx", function (d) { return x(d.Population); } )
-      .attr("cy", function (d) { return y(d.Drug); } )
+  //   d3.select("button#b").on("click", function(d) {
+  //    scatter
+  //   .selectAll("circle")
+  //     .attr("cx", function (d) { return x(d.Population); } )
+  //     .attr("cy", function (d) { return y(d.Drug); } )
 
-  })
+  // })
 
-  d3.select("button#c").on("click", function(d) {
-    scatter
-    .selectAll("circle")
-      .attr("cx", function (d) { return x(d.Population); } )
-      .attr("cy", function (d) { return y(d.Alc); } )
-  })
+  // d3.select("button#c").on("click", function(d) {
+  //   scatter
+  //   .selectAll("circle")
+  //     .attr("cx", function (d) { return x(d.Population); } )
+  //     .attr("cy", function (d) { return y(d.Alc); } )
+  // })
 
 
 })
