@@ -55,14 +55,14 @@ d3.csv("Sheet_1_data.csv", function(data) {
     .attr("transform", "translate(0," + height + ")")
     .call(d3.axisBottom(x));
 
-var xAxisO = xAxis
+var xAxisO = xAxis;
   // Add Y axis
   var y = d3.scaleLinear()
     .domain([0, 5000000])
     .range([ height, 0]);
   var yAxis =svg.append("g")
     .call(d3.axisLeft(y));
-var yAxisO = yAxis
+var yAxisO = yAxis;
   // // Add a tooltip div. Here I define the general feature of the tooltip: stuff that do not depend on the data point.
   // // Its opacity is set to 0: we don't see it by default.
   // var tooltip = d3.select("#my_dataviz")
@@ -130,6 +130,11 @@ var yAxisO = yAxis
     .domain([72206, 4844053])
     .range([5, 50])
 
+
+
+
+
+
     // Add a clipPath: everything out of this area won't be drawn.
   var clip = svg.append("defs").append("svg:clipPath")
       .attr("id", "clip")
@@ -155,6 +160,11 @@ var yAxisO = yAxis
       .attr('transform', 'translate(' + margin.left + ',' + margin.top + ')')
       .call(zoom);
   // now the user can zoom and it will trigger the function called updateChart
+
+
+
+
+
 
 // Create the scatter variable: where both the circles and the brush take place
   var scatter = svg.append('g')
