@@ -46,6 +46,8 @@ var svg = d3.select("#my_dataviz")
 //Read the data
 d3.csv("Sheet_1_data.csv", function(data) {
 
+  })
+
   // Add X axis
   var x = d3.scaleLinear()
     .domain([0, 2100000000])
@@ -197,7 +199,7 @@ d3.csv("Sheet_1_data.csv", function(data) {
   }
 
 
-})
+//})
 
 function update(Flag) {
  scatter
