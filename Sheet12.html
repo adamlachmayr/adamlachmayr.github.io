@@ -58,6 +58,11 @@ var svg = d3.select("#my_dataviz")
   .append("g")
     .attr("transform",
           "translate(" + margin.left + "," + margin.top + ")");
+    var leg = d3.select("#Legend")
+  .append("svg")
+  .attr("width", 150 + margin.left + margin.right)
+  .attr("height", 1300 + margin.top + margin.bottom);
+
 
       // Add a tooltip div. Here I define the general feature of the tooltip: stuff that do not depend on the data point.
   // Its opacity is set to 0: we don't see it by default.
