@@ -241,7 +241,7 @@ var yAxisO = yAxis;
     var valuesToShow = [10000000, 100000000, 1000000000]
     var xCircle = 900
     var xLabel = 900
-    svg
+    leg
       .selectAll("legend")
       .data(valuesToShow)
       .enter()
@@ -253,7 +253,7 @@ var yAxisO = yAxis;
         .attr("stroke", "black")
 
     // Add legend: segments
-    svg
+    leg
       .selectAll("legend")
       .data(valuesToShow)
       .enter()
@@ -266,7 +266,7 @@ var yAxisO = yAxis;
         .style('stroke-dasharray', ('2,2'))
 
     // Add legend: labels
-    svg
+    leg
       .selectAll("legend")
       .data(valuesToShow)
       .enter()
@@ -278,7 +278,7 @@ var yAxisO = yAxis;
         .attr('alignment-baseline', 'middle')
 
     // Legend title
-    svg.append("text")
+    leg.append("text")
       .attr('x', xCircle)
       .attr("y", height - 100 +30)
       .text("Population (M)")
