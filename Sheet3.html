@@ -50,7 +50,7 @@ function update(selectedVar) {
   d3.csv("Sheet_3_data.csv", function(data) {
 
     // X axis
-    x.domain(data.map(function(d) { return d.group; }))
+    x.domain(data.map(function(d) { return d.FiveYearAgeGroups; }))
     xAxis.transition().duration(1000).call(d3.axisBottom(x))
 
     // Add Y axis
@@ -68,10 +68,10 @@ function update(selectedVar) {
       .merge(u)
       .transition()
       .duration(1000)
-        .attr("x", function(d) { return x(d.group); })
-        .attr("y", function(d) { return y(d[selectedVar]); })
+        .attr("x", function(d) { return x(d.FiveYearAgeGroups); })
+        .attr("y", function(d) { return y(d[Deaths]); })
         .attr("width", x.bandwidth())
-        .attr("height", function(d) { return height - y(d[selectedVar]); })
+        .attr("height", function(d) { return height - y(d[Deaths]); })
         .attr("fill", "#69b3a2")
   })
 
