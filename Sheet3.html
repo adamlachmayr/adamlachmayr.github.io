@@ -16,9 +16,9 @@
 <script>
 
 // set the dimensions and margins of the graph
-var margin = {top: 30, right: 30, bottom: 70, left: 60},
-    width = 800 - margin.left - margin.right,
-    height = 800 - margin.top - margin.bottom;
+var margin = {top: 50, right: 30, bottom: 50, left: 90},
+    width = 860 - margin.left - margin.right,
+    height = 850 - margin.top - margin.bottom;
 
 // append the svg object to the body of the page
 var svg = d3.select("#my_dataviz")
@@ -35,7 +35,7 @@ var x = d3.scaleBand()
   .padding(0.2);
 var xAxis = svg.append("g")
   .attr("transform", "translate(0," + height + ")")
-  
+
 
 // Initialize the Y axis
 var y = d3.scaleLinear()
@@ -46,6 +46,36 @@ var yAxis = svg.append("g")
 
 // A function that create / update the plot for a given variable:
 function update(selectedVar) {
+
+
+      // Add X axis label:
+svg.append("text")
+    .attr("class", "x label")
+    .attr("text-anchor", "end")
+    .attr("x", width -300)
+    .attr("y", height +45)
+    .attr("font-size","25px" )
+    .text("Population");
+
+// Add Y axis label:
+    svg.append("text")
+    .attr("class", "y label")
+    .attr("text-anchor", "end")
+    .attr("y", -80)
+    .attr("x", -300)
+    .attr("dy", ".75em")
+    .attr("transform", "rotate(-90)")
+    .attr("font-size","25px" )
+    .text("Normalized Deaths");
+
+        // Add Tittle axis label:
+svg.append("text")
+    .attr("class", "x label")
+    .attr("text-anchor", "end")
+    .attr("x", width -100 )
+    .attr("y", 0)
+    .attr("font-size","30px" )
+    .text("Normalized Deaths Vs. Population Per State");
 
   // Parse the Data
   d3.csv("Sheet_3_data.csv", function(data) {
