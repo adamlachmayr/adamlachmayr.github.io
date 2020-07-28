@@ -347,18 +347,7 @@ svg.append("text")
 
 
  const annotations = [
-        {
-          note: {
-            label: "Deaths and Population have a strong linear relationship",
-            title: "d3.annotationLabel",
-            wrap: 150,
-            align: "left"
-          },
-          x: 200,
-          y: 700,
-          dy: 230,// moves text vertical
-          dx: -200// moves the text horizontal
-        },
+      
         {
           note: {
             label: "It is clear to see that California has the largest population, therefor the largest death rate.",
@@ -374,6 +363,17 @@ svg.append("text")
           dy: 130,// moves text vertical
           dx: -100// moves the text horizontal
         }
+        ,{
+            note: { label: "Stock Split 2:1", 
+              lineType:"none", 
+              orientation: "leftRight", 
+              "align": "middle" },
+            className: "anomaly",
+            type: d3.annotationCalloutCircle,
+            subject: { radius: 35 },
+            data: { x: "6/21/2000", y: 76},
+            dx: 40
+          }
         //,{
         //   note: {
         //     label: "Changed connector type to 'curve'",
