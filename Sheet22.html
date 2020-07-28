@@ -235,6 +235,9 @@ svg.append("text")
   // A function that updates the chart when the user zoom and thus new boundaries are available
   function updateChart() {
 
+    d3.select("annotation-group").remove()
+    d3.select(".annotation-group").remove()
+
     // recover the new scale
     var newX = d3.event.transform.rescaleX(x);
     var newY = d3.event.transform.rescaleY(y);
