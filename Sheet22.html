@@ -39,7 +39,7 @@ h1 {
 <script>
 
 // set the dimensions and margins of the graph
-var margin = {top: 10, right: 30, bottom: 30, left: 60},
+var margin = {top: 50, right: 30, bottom: 50, left: 90},
     width = 860 - margin.left - margin.right,
     height = 850 - margin.top - margin.bottom;
 
@@ -90,17 +90,35 @@ d3.csv("Sheet_2_data.csv", function(data) {
   var yAxis =svg.append("g")
     .call(d3.axisLeft(y));
 
-  // // Add a tooltip div. Here I define the general feature of the tooltip: stuff that do not depend on the data point.
-  // // Its opacity is set to 0: we don't see it by default.
-  // var tooltip = d3.select("#my_dataviz")
-  //   .append("div")
-  //   .style("opacity", 0)
-  //   .attr("class", "tooltip")
-  //   .style("background-color", "white")
-  //   .style("border", "solid")
-  //   .style("border-width", "1px")
-  //   .style("border-radius", "5px")
-  //   .style("padding", "10px")
+    // Add X axis label:
+svg.append("text")
+    .attr("class", "x label")
+    .attr("text-anchor", "end")
+    .attr("x", width -300)
+    .attr("y", height +45)
+    .attr("font-size","25px" )
+    .text("Population");
+
+// Add Y axis label:
+    svg.append("text")
+    .attr("class", "y label")
+    .attr("text-anchor", "end")
+    .attr("y", -80)
+    .attr("x", -300)
+    .attr("dy", ".75em")
+    .attr("transform", "rotate(-90)")
+    .attr("font-size","25px" )
+    .text("Drug Deaths");
+
+        // Add Tittle axis label:
+svg.append("text")
+    .attr("class", "x label")
+    .attr("text-anchor", "end")
+    .attr("x", width -100 )
+    .attr("y", 0)
+    .attr("font-size","30px" )
+    .text("Drug Deaths Vs. Population Per State");
+
 
 
 
