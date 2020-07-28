@@ -59,7 +59,7 @@ function update(selectedVar) {
 
     // variable u: map data to existing bars
     var u = svg.selectAll("rect")
-      .data(data)
+      .data(data.filter( function(d){return d.type === selectedVar} ))
 
     // update bars
     u
