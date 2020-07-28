@@ -47,7 +47,7 @@ var yAxis = svg.append("g")
 function update(selectedVar) {
 
   // Parse the Data
-  d3.csv("Sheet_3_data.csv", function(data.filter( function(d){return d.type === selectedVar} )) {
+  d3.csv("Sheet_3_data.csv", function(data) {
 
     // X axis
     x.domain(data.map(function(d) { return d.FiveYearAgeGroups; }))
