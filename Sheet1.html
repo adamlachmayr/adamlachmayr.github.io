@@ -310,7 +310,7 @@ var yAxisO = yAxis;
       .append("text")
         .attr("x", 10 + size*.8)
         .attr("y", function(d,i){ return i * (size + 5) + (size/2)}) // 100 is where the first dot appears. 25 is the distance between dots
-        .style("fill", function (d) { return StateColors(d.StateCode) } )
+        .style("fill", "balck" )
         .text(function(d){ return d.State})
         .attr("text-anchor", "left")
         .style("alignment-baseline", "middle")
