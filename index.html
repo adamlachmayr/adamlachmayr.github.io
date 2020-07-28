@@ -1,414 +1,425 @@
+
 <!DOCTYPE html>
-<html>
-  <head>
-    <title>Cartograms with d3 &amp; TopoJSON</title>
-    <meta charset="utf-8">
-    <meta property="og:image" content="placeholder.png">
-    <script src="http://d3js.org/d3.v4.js"></script>
-    <script src="https://d3js.org/d3-scale-chromatic.v1.min.js"></script>
-    <script src="build/topogram.js"></script>
-    <style type="text/css">
+<meta charset="utf-8">
 
-      body {
-        font-family: "Helvetica Neue", Helvetica, Arial, sans-serif; 
-        font-size: 14px;
-        line-height: 1.4em;
-        padding: 0;
-        margin: 0;
-      }
+<head>
+<style>
+body {
+  background-color: linen;
+}
 
-      #container {
-        width: 800px;
-        margin: 20px auto;
-      }
+h1 {
+  color: maroon;
+  margin-left: 40px;
+}
 
-      h1 {
-        font-size: 200%;
-        margin: 0 0 15px 0;
-      }
+.label{
+  color: maroon;
+}
+</style>
+</head>
 
-      h2 {
-        font-size: 160%;
-        margin: 0 0 10px 0;
-      }
+<!-- Load d3.js -->
+<script src="https://d3js.org/d3.v4.js"></script>
 
-      p {
-        margin: 0 0 10px;
-      }
+<div style="color:Black;text-align:center;font-size: 40px;" id="Header">Alcohol and Drug deaths by state 1999-2018</div>
 
-      form, form > * {
-        margin: 0;
-      }
 
-      #status {
-        color: #999;
-      }
 
-      #map-container {
-        height: 500px;
-        text-align: center;
-        position: relative;
-        margin: 20px 0;
-      }
+<div class="buttons" style="width: 600px; text-align: center;">
+  <button id="a" onclick="window.location.href='https://adamlachmayr.github.io/index.html';" style="width:150px;height:50px;">Total Deaths</button>
+  <button id="b" onclick="window.location.href='https://adamlachmayr.github.io/Sheet12.html';" style="width:150px;height:50px;">Alcohol Deaths</button>
+  <button id="c" onclick="window.location.href='https://adamlachmayr.github.io/Sheet13.html';" style="width:150px;height:50px;">Drug Deaths</button>
+</div>
 
-      #map {
-        display: block;
-        position: absolute;
-        background: #fff;
-        width: 100%;
-        height: 100%;
-        margin: 0;
-      }
 
-      path.state {
-        stroke: #666;
-        stroke-width: .5;
-      }
+<!-- Create a div where the graph will take place -->
+<div id="my_dataviz" style="float: left;"></div>
+<div id="Legend" style="float: right;height:850px; overflow-y: auto;"></div>
 
-      path.state:hover {
-        stroke: #000;
-      }
 
-      form {
-        font-size: 120%;
-      }
+<div class="NextButtion" style="width: 150px; text-align: center; position: absolute; bottom:20px; right:20px; font-size: 20px; font-weight: bold;">
+  <button id="next" onclick="window.location.href='https://adamlachmayr.github.io/Sheet22.html';" style="width:150px;height:50px;font-size: 20px; font-weight: bold;">Next View</button>
 
-      select {
-        font-size: inherit;
-      }
+</div>
 
-      #placeholder {
-        position: absolute;
-        z-index: -1;
-        display: block;
-        left: 0;
-        top: 0;
-      }
+<script>
 
-    </style>
-  </head>
-  <body>
-    <div id="container">
-      <h1>Cartograms with d3 &amp; TopoJSON</h1>
-      <form>
-        <p>
-          <label>Scale by <select id="field"></select></label>
-          <label>in <select id="year"></select></label>
-          <span id="status"></span>
-        </p>
-      </form>
-      <div id="map-container">
-        <img id="placeholder" alt="placeholder image for old browsers" src="placeholder.png">
-        <svg id="map"></svg>
-      </div>
-      <div id="about">
-        <h2>About</h2>
-        <p><a href="cartogram.js">cartogram.js</a> is a JavaScript implementation of
-        <a href="http://lambert.nico.free.fr/tp/biblio/Dougeniketal1985.pdf">an algoritm to construct continuous area cartograms</a>,
-        by James A. Dougenik, Nicholas R. Chrisman and Duane R. Niemeyer,
-        &copy;1985 by the Association of American Geographers. This example combines
-        <a href="http://github.com/mbostock/topojson">TopoJSON</a>-encoded 
-        boundaries of the United States from
-        <a href="http://www.naturalearthdata.com/downloads/110m-cultural-vectors/">Natural Earth</a>
-        with
-        <a href="http://www.census.gov/popest/data/state/totals/2011/">2011 US Census population estimates</a>
-        to size each state proportionally.</p>
-        
-        <p>There&rsquo;s also a
-        <a class="hashish" href="?segmentized">segmentized topology</a>,
-        which distorts the shapes more fluidly than the
-        <a class="hashish" href="?">original</a>.</p>
+// set the dimensions and margins of the graph
+var margin = {top: 50, right: 30, bottom: 50, left: 90},
+    width = 860 - margin.left - margin.right,
+    height = 850 - margin.top - margin.bottom;
 
-        <p>Designed and built by <a href="http://stamen.com/studio/shawn">Shawn Allen</a> at
-        <a href="http://stamen.com">Stamen</a>. But
-        <a href="http://d3js.org">d3.js</a> does most of the heavy lifting;
-        colors by <a href="http://colorbrewer2.org">colorbrewer</a>.</p>
-      </div>
+// append the svg object to the body of the page
+var svg = d3.select("#my_dataviz")
+  .append("svg")
+    .attr("width", width + margin.left + margin.right)
+    .attr("height", height + margin.top + margin.bottom)
+  .append("g")
+    .attr("transform",
+          "translate(" + margin.left + "," + margin.top + ")");
 
-      <a href="https://github.com/shawnbot/topogram/"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_right_gray_6d6d6d.png" alt="Fork me on GitHub"></a>
-    </div>
-    <script>
+var leg = d3.select("#Legend")
+  .append("svg")
+  .attr("width", 150 + margin.left + margin.right)
+  .attr("height", 1300 + margin.top + margin.bottom);
 
-      // hide the form if the browser doesn't do SVG,
-      // (then just let everything else fail)
-      if (!document.createElementNS) {
-        document.getElementsByTagName("form")[0].style.display = "none";
-      }
 
-      // field definitions from:
-      // <http://www.census.gov/popest/data/national/totals/2011/files/NST-EST2011-alldata.pdf>
-      var percent = (function() {
-            var fmt = d3.format(".2f");
-            return function(n) { return fmt(n) + "%"; };
-          })(),
-          fields = [
-            {name: "(no scale)", id: "none"},
-            // {name: "Census Population", id: "censuspop", key: "CENSUS%dPOP", years: [2010]},
-            // {name: "Estimate Base", id: "censuspop", key: "ESTIMATESBASE%d", years: [2010]},
-            {name: "Population Estimate", id: "popest", key: "POPESTIMATE%d"},
-            {name: "Population Change", id: "popchange", key: "NPOPCHG_%d", format: "+,"},
-            {name: "Births", id: "births", key: "BIRTHS%d"},
-            {name: "Deaths", id: "deaths", key: "DEATHS%d"},
-            {name: "Natural Increase", id: "natinc", key: "NATURALINC%d", format: "+,"},
-            {name: "Int'l Migration", id: "intlmig", key: "INTERNATIONALMIG%d", format: "+,"},
-            {name: "Domestic Migration", id: "domesticmig", key: "DOMESTICMIG%d", format: "+,"},
-            {name: "Net Migration", id: "netmig", key: "NETMIG%d", format: "+,"},
-            {name: "Residual", id: "residual", key: "RESIDUAL%d", format: "+,"},
-            {name: "Birth Rate", id: "birthrate", key: "RBIRTH%d", years: [2011], format: percent},
-            {name: "Death Rate", id: "deathrate", key: "RDEATH%d", years: [2011], format: percent},
-            {name: "Natural Increase Rate", id: "natincrate", key: "RNATURALINC%d", years: [2011], format: percent},
-            {name: "Int'l Migration Rate", id: "intlmigrate", key: "RINTERNATIONALMIG%d", years: [2011], format: percent},
-            {name: "Net Domestic Migration Rate", id: "domesticmigrate", key: "RDOMESTICMIG%d", years: [2011], format: percent},
-            {name: "Net Migration Rate", id: "netmigrate", key: "RNETMIG%d", years: [2011], format: percent},
-          ],
-          years = [2010, 2011],
-          fieldsById = d3.nest()
-            .key(function(d) { return d.id; })
-            .rollup(function(d) { return d[0]; })
-            .map(fields),
-          field = fields[0],
-          year = years[0],
-          colors = d3.schemeRdYlBu[3].reverse()
-            .map(function(rgb) { return d3.hsl(rgb); });
+      // Add a tooltip div. Here I define the general feature of the tooltip: stuff that do not depend on the data point.
+  // Its opacity is set to 0: we don't see it by default.
+  var tooltip = d3.select("#my_dataviz")
+    .append("div")
+    .style("opacity", 0)
+    .attr("class", "tooltip")
+    .style("background-color", "white")
+    .style("border", "solid")
+    .style("border-width", "1px")
+    .style("border-radius", "5px")
+    .style("padding", "10px")
+    .style("position", "absolute");
 
-      var body = d3.select("body"),
-          stat = d3.select("#status");
+//Read the data
+d3.csv("Sheet_1_data.csv", function(data) {
 
-      var fieldSelect = d3.select("#field")
-        .on("change", function(e) {
-          field = fields[this.selectedIndex];
-          location.hash = "#" + [field.id, year].join("/");
-        });
+  // Add X axis1
+  var x = d3.scaleLinear()
+    .domain([0, 2100000000])
+    .range([ 0, width ]);
+  var xAxis = svg.append("g")
+    .attr("transform", "translate(0," + height + ")")
+    .call(d3.axisBottom(x));
 
-      fieldSelect.selectAll("option")
-        .data(fields)
-        .enter()
-        .append("option")
-          .attr("value", function(d) { return d.id; })
-          .text(function(d) { return d.name; });
+var xAxisO = xAxis;
+  // Add Y axis
+  var y = d3.scaleLinear()
+    .domain([0, 5000000])
+    .range([ height, 0]);
+  var yAxis =svg.append("g")
+    .call(d3.axisLeft(y));
+var yAxisO = yAxis;
 
-      var yearSelect = d3.select("#year")
-        .on("change", function(e) {
-          year = years[this.selectedIndex];
-          location.hash = "#" + [field.id, year].join("/");
-        });
+    // Add X axis label:
+svg.append("text")
+    .attr("class", "x label")
+    .attr("text-anchor", "end")
+    .attr("x", width -300)
+    .attr("y", height +45)
+    .attr("font-size","25px" )
+    .text("Population");
 
-      yearSelect.selectAll("option")
-        .data(years)
-        .enter()
-        .append("option")
-          .attr("value", function(y) { return y; })
-          .text(function(y) { return y; });
+// Add Y axis label:
+    svg.append("text")
+    .attr("class", "y label")
+    .attr("text-anchor", "end")
+    .attr("y", -80)
+    .attr("x", -300)
+    .attr("dy", ".75em")
+    .attr("transform", "rotate(-90)")
+    .attr("font-size","25px" )
+    .text("Total Deaths");
 
-      var map = d3.select("#map"),
-          layer = map.append("g")
-                .attr("id", "layer"),
-          states = layer.append("g")
-            .attr("id", "states")
-            .selectAll("path");
+        // Add Tittle axis label:
+svg.append("text")
+    .attr("class", "x label")
+    .attr("text-anchor", "end")
+    .attr("x", width -100 )
+    .attr("y", 0)
+    .attr("font-size","30px" )
+    .text("Total Deaths Vs. Population Per State");
 
-      var translation = [-38, 32],
-          scaling = 0.94;
 
-      layer.attr("transform",
-          "translate(" + translation + ")" +
-          "scale(" + scaling + ")");
+  // A function that change this tooltip when the user hover a point.
+  // Its opacity is set to 1: we can now see it. Plus it set the text and position of tooltip depending on the datapoint (d)
+  var mouseover = function(d) {
+    tooltip
+      .style("opacity", 1)
 
-      var proj = d3.geoAlbersUsa(),
-          topology,
-          geometries,
-          rawData,
-          dataById = {},
-          carto = d3.cartogram()
-            .projection(proj)
-            .properties(function(d) {
-              return dataById.get(d.id);
-            })
-            .value(function(d) {
-              return +d.properties[field];
-            });
+       d3.selectAll(".")
+      .transition()
+      .duration(200)
+      .style("fill", color("#FF0000"))
+      .attr("r", 7)
 
-      window.onhashchange = function() {
-        parseHash();
-      };
 
-      var segmentized = location.search === "?segmentized",
-          url = ["data",
-            segmentized ? "us-states-segmentized.topojson" : "us-states.topojson"
-          ].join("/");
-      d3.json(url, function(topo) {
-        topology = topo;
-        geometries = topology.objects.states.geometries;
-        d3.csv("data/nst_2011.csv", function(data) {
-          rawData = data;
-          dataById = d3.nest()
-            .key(function(d) { return d.NAME; })
-            .rollup(function(d) { return d[0]; })
-            .map(data);
-          init();
-        });
-      });
 
-      function init() {
-        var features = carto.features(topology, geometries),
-            path = d3.geoPath()
-              .projection(proj);
+  }
 
-        states = states.data(features)
-          .enter()
-          .append("path")
-            .attr("class", "state")
-            .attr("id", function(d) {
-              return d.properties.NAME;
-            })
-            .attr("fill", "#fafafa")
-            .attr("d", path);
+  var mousemove = function(d) {
+    tooltip
+      .html(d.State + "<br>" + "Population: " + d.Population + "<br>" + "Deaths from Alc and OD: " + d.Deaths)
+      .style("left", (d3.mouse(this)[0]+60) + "px") // It is important to put the +90: other wise the tooltip is exactly where the point is an it creates a weird effect
+      .style("top", (d3.mouse(this)[1]) + "px")
 
-        states.append("title");
 
-        parseHash();
-      }
+  }
 
-      function reset() {
-        stat.text("");
-        body.classed("updating", false);
 
-        var features = carto.features(topology, geometries),
-            path = d3.geoPath()
-              .projection(proj);
+  // A function that change this tooltip when the leaves a point: just need to set opacity to 0 again
+  var mouseleave = function(d) {
+    tooltip
+      .transition()
+      .duration(100)
+      .style("opacity", 0)
 
-        states.data(features)
-          .transition()
-            .duration(750)
-            .ease(d3.easeLinear)
-            .attr("fill", "#fafafa")
-            .attr("d", path);
 
-        states.select("title")
-          .text(function(d) {
-            return d.properties.NAME;
-          });
-      }
 
-      function update() {
-        var start = Date.now();
-        body.classed("updating", true);
 
-        var key = field.key.replace("%d", year),
-            fmt = (typeof field.format === "function")
-              ? field.format
-              : d3.format(field.format || ","),
-            value = function(d) {
-              return +d.properties[key];
-            },
-            values = states.data()
-              .map(value)
-              .filter(function(n) {
-                return !isNaN(n);
-              })
-              .sort(d3.ascending),
-            lo = values[0],
-            hi = values[values.length - 1];
 
-        var color = d3.scaleLinear()
-          .range(colors)
-          .domain(lo < 0
-            ? [lo, 0, hi]
-            : [lo, d3.mean(values), hi]);
+  }
 
-        // normalize the scale to positive numbers
-        var scale = d3.scaleLinear()
-          .domain([lo, hi])
-          .range([1, 1000]);
+  //COLORS
+  var colorP = d3.schemeCategory20;
+  var BcolorP = d3.schemeCategory20b;
+  var CcolorP = d3.schemeCategory20c;
 
-        // tell the cartogram to use the scaled values
-        carto.value(function(d) {
-          return scale(value(d));
-        });
+  var StateColors = d3.scaleOrdinal()
+    .domain([1, 51])
+    .range([colorP[0], colorP[1], colorP[2], colorP[3], colorP[4], colorP[5], colorP[6], colorP[7], colorP[8], colorP[9], colorP[10], colorP[11], colorP[12], colorP[13], colorP[14], colorP[15], colorP[16], colorP[17], colorP[18], colorP[19], BcolorP[0], BcolorP[1], BcolorP[2], BcolorP[3], BcolorP[4], BcolorP[5], BcolorP[6], BcolorP[7], BcolorP[8], BcolorP[9], BcolorP[10], BcolorP[11], BcolorP[12], BcolorP[13], BcolorP[14], BcolorP[15], BcolorP[16], BcolorP[17], BcolorP[18], BcolorP[19], CcolorP[0], CcolorP[1], CcolorP[2], CcolorP[3], CcolorP[4], CcolorP[5], CcolorP[6], CcolorP[7], CcolorP[8], CcolorP[9], CcolorP[10]    ]);
 
-        // generate the new features, pre-projected
-        var features = carto(topology, geometries).features;
+          // Size
+  var Size = d3.scaleLinear()
+    .domain([72206, 4844053])
+    .range([5, 50])
 
-        // update the data
-        states.data(features)
-          .select("title")
-            .text(function(d) {
-              return [d.properties.NAME, fmt(value(d))].join(": ");
-            });
 
-        states.transition()
-          .duration(750)
-          .ease(d3.easeLinear)
-          .attr("fill", function(d) {
-            return color(value(d));
-          })
-          .attr("d", carto.path);
 
-        var delta = (Date.now() - start) / 1000;
-        stat.text(["calculated in", delta.toFixed(1), "seconds"].join(" "));
-        body.classed("updating", false);
-      }
 
-      var deferredUpdate = (function() {
-        var timeout;
-        return function() {
-          var args = arguments;
-          clearTimeout(timeout);
-          stat.text("calculating...");
-          return timeout = setTimeout(function() {
-            update.apply(null, arguments);
-          }, 10);
-        };
-      })();
 
-      var hashish = d3.selectAll("a.hashish")
-        .datum(function() {
-          return this.href;
-        });
 
-      function parseHash() {
-        var parts = location.hash.substr(1).split("/"),
-            desiredFieldId = parts[0],
-            desiredYear = +parts[1];
+    // Add a clipPath: everything out of this area won't be drawn.
+  var clip = svg.append("defs").append("svg:clipPath")
+      .attr("id", "clip")
+      .append("svg:rect")
+      .attr("width", width )
+      .attr("height", height )
+      .attr("x", 0)
+      .attr("y", 0);
 
-        field = fieldsById.get(desiredFieldId) || fields[0];
-        year = (years.indexOf(desiredYear) > -1) ? desiredYear : years[0];
+           // Set the zoom and Pan features: how much you can zoom, on which part, and what to do when there is a zoom
+  var zoom = d3.zoom()
+      .scaleExtent([.5, 20])  // This control how much you can unzoom (x0.5) and zoom (x20)
+      .extent([[0, 0], [width, height]])
+      .on("zoom", updateChart);
 
-        fieldSelect.property("selectedIndex", fields.indexOf(field));
 
-        if (field.id === "none") {
+  // This add an invisible rect on top of the chart area. This rect can recover pointer events: necessary to understand when the user zoom
+  svg.append("rect")
+      .attr("width", width)
+      .attr("height", height)
+      .style("fill", "none")
+      .style("pointer-events", "all")
+      .attr('transform', 'translate(' + margin.left + ',' + margin.top + ')')
+      .call(zoom);
+  // now the user can zoom and it will trigger the function called updateChart
 
-          yearSelect.attr("disabled", "disabled");
-          reset();
 
-        } else {
 
-          if (field.years) {
-            if (field.years.indexOf(year) === -1) {
-              year = field.years[0];
-            }
-            yearSelect.selectAll("option")
-              .attr("disabled", function(y) {
-                return (field.years.indexOf(y) === -1) ? "disabled" : null;
-              });
-          } else {
-            yearSelect.selectAll("option")
-              .attr("disabled", null);
-          }
 
-          yearSelect
-            .property("selectedIndex", years.indexOf(year))
-            .attr("disabled", null);
 
-          deferredUpdate();
-          location.replace("#" + [field.id, year].join("/"));
 
-          hashish.attr("href", function(href) {
-            return href + location.hash;
-          });
-        }
-      }
+// Create the scatter variable: where both the circles and the brush take place
+  var scatter = svg.append('g')
+    .attr("clip-path", "url(#clip)")
 
-    </script>
-  </body>
-</html>
+  // Add dots
+  //svg.append('g')
+  scatter
+    .selectAll("circle")
+    .data(data.filter(function(d,i){return i<50})) // the .filter part is just to keep a few dots on the chart, not all of them
+    .enter()
+    .append("circle")
+      .attr("cx", function (d) { return x(d.Population); } )
+      .attr("cy", function (d) { return y(d.Deaths); } )
+      .attr("r", 7)
+      .style("fill", function (d) { return StateColors(d.StateCode) } )
+      //.style("fill", "#F8766D" )
+      .style("opacity", 0.8)
+      .style("stroke", "black")
+    .on("mouseover", mouseover )
+    .on("mousemove", mousemove )
+    .on("mouseleave", mouseleave )
+
+
+
+  // A function that updates the chart when the user zoom and thus new boundaries are available
+  function updateChart() {
+
+    // recover the new scale
+    var newX = d3.event.transform.rescaleX(x);
+    var newY = d3.event.transform.rescaleY(y);
+
+    // update axes with these new boundaries
+    xAxis.call(d3.axisBottom(newX))
+    yAxis.call(d3.axisLeft(newY))
+
+    // update circle position
+    scatter
+      .selectAll("circle")
+      .attr('cx', function(d) {return newX(d.Population)})
+      .attr('cy', function(d) {return newY(d.Deaths)});
+  }
+
+//____________________________________________________________________
+    //       LEGEND              //
+//____________________________________________________________________
+
+    // // Add legend: circles
+    // var valuesToShow = [10000000, 100000000, 1000000000]
+    // var xCircle = 0
+    // var xLabel = 0
+    // leg
+    //   .selectAll("legend")
+    //   .data(valuesToShow)
+    //   .enter()
+    //   .append("circle")
+    //     .attr("cx", xCircle)
+    //     .attr("cy", function(d){ return height - 100 - z(d) } )
+    //     .attr("r", function(d){ return z(d) })
+    //     .style("fill", "none")
+    //     .attr("stroke", "black")
+
+    // // Add legend: segments
+    // leg
+    //   .selectAll("legend")
+    //   .data(valuesToShow)
+    //   .enter()
+    //   .append("line")
+    //     .attr('x1', function(d){ return xCircle + z(d) } )
+    //     .attr('x2', xLabel)
+    //     .attr('y1', function(d){ return height - 100 - z(d) } )
+    //     .attr('y2', function(d){ return height - 100 - z(d) } )
+    //     .attr('stroke', 'black')
+    //     .style('stroke-dasharray', ('2,2'))
+
+    // // Add legend: labels
+    // leg
+    //   .selectAll("legend")
+    //   .data(valuesToShow)
+    //   .enter()
+    //   .append("text")
+    //     .attr('x', xLabel)
+    //     .attr('y', function(d){ return height - 100 - z(d) } )
+    //     .text( function(d){ return d/1000000 } )
+    //     .style("font-size", 10)
+    //     .attr('alignment-baseline', 'middle')
+
+    // // Legend title
+    // leg.append("text")
+    //   .attr('x', xCircle)
+    //   .attr("y", height - 100 +30)
+    //   .text("Population (M)")
+    //   .attr("text-anchor", "middle")
+
+    // Add one dot in the legend for each name.
+    var size = 20
+    var allgroups = ["Asia", "Europe", "Americas", "Africa", "Oceania"]
+    leg.selectAll("myrect")
+      .data(data)
+      .enter()
+      .append("circle")
+        .attr("cx", 10)
+        .attr("cy", function(d,i){ return 10 + i*(size+5)}) // 100 is where the first dot appears. 25 is the distance between dots
+        .attr("r", 7)
+        .style("fill", function (d) { return StateColors(d.StateCode) } )
+        .style("opacity", 0.8)
+        .style("stroke", "black")
+
+    // Add labels beside legend dots
+    leg.selectAll("mylabels")
+      .data(data)
+      .enter()
+      .append("text")
+        .attr("x", 10 + size*.8)
+        .attr("y", function(d,i){ return i * (size + 5) + (size/2)}) // 100 is where the first dot appears. 25 is the distance between dots
+        .style("fill", "balck" )
+        .text(function(d){ return d.State})
+        .attr("text-anchor", "left")
+        .style("alignment-baseline", "middle")
+
+    //____________________________________________________________________
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  // function updateChartC() {
+
+  //   // recover the new scale
+  //   var newX = d3.event.transform.rescaleX(x);
+  //   var newY = d3.event.transform.rescaleY(y);
+
+  //   // update axes with these new boundaries
+  //   xAxis.call(d3.axisBottom(newX))
+  //   yAxis.call(d3.axisLeft(newY))
+
+  //   // update circle position
+  //   scatter
+  //     .selectAll("circle")
+  //     .attr('cx', function(d) {return newX(d.Population)})
+  //     .attr('cy', function(d) {return newY(d.Alc)});
+  // }
+
+
+
+
+
+
+
+  // d3.select("button#a").on("click", function(d) {
+
+
+  //   xAxis.call(d3.axisBottom( xAxisO))
+  //   yAxis.call(d3.axisLeft( yAxisO))
+
+  //   scatter
+  //   .selectAll("circle")
+  //     .attr("cx", function (d) { return x(d.Population); } )
+  //     .attr("cy", function (d) { return y(d.Deaths); } )
+
+
+  // })
+
+  //   d3.select("button#b").on("click", function(d) {
+  //    scatter
+  //   .selectAll("circle")
+  //     .attr("cx", function (d) { return x(d.Population); } )
+  //     .attr("cy", function (d) { return y(d.Drug); } )
+
+  // })
+
+  // d3.select("button#c").on("click", function(d) {
+  //   scatter
+  //   .selectAll("circle")
+  //     .attr("cx", function (d) { return x(d.Population); } )
+  //     .attr("cy", function (d) { return y(d.Alc); } )
+  // })
+
+
+})
+
+// function update(Flag) {
+//   d3.selectAll("circle")
+//       .attr('cx', function(d) {return newX(d.Population)})
+//       .attr('cy', function(d) {return newY()});
+
+//   }
+
+</script>
