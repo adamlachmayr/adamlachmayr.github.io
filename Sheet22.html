@@ -12,6 +12,10 @@ h1 {
   color: maroon;
   margin-left: 40px;
 }
+
+.label{
+  color: maroon;
+}
 </style>
 </head>
 
@@ -23,12 +27,15 @@ h1 {
 
 
 <!-- Create a div where the graph will take place -->
-<div id="my_dataviz"></div>
+<div id="my_dataviz" style="float: left;"></div>
+<div id="Legend" style="float: right;height:850px; overflow-y: auto;"></div>
 
-<div class="NextButtion" style="width: 150px; text-align: center;float: right;font-size: 16px;">
-  <button id="next" onclick="window.location.href='https://adamlachmayr.github.io/Sheet22.html';" style="width:150px;height:50px;font-size: 16px;">Next View</button>
+
+<div class="NextButtion" style="width: 150px; text-align: center; position: absolute; bottom:20px; right:20px; font-size: 20px; font-weight: bold;">
+  <button id="next" onclick="window.location.href='https://adamlachmayr.github.io/Sheet22.html';" style="width:150px;height:50px;font-size: 20px; font-weight: bold;">Next View</button>
 
 </div>
+
 <script>
 
 // set the dimensions and margins of the graph
@@ -44,6 +51,13 @@ var svg = d3.select("#my_dataviz")
   .append("g")
     .attr("transform",
           "translate(" + margin.left + "," + margin.top + ")");
+
+
+        var leg = d3.select("#Legend")
+  .append("svg")
+  .attr("width", 150 + margin.left + margin.right)
+  .attr("height", 1300 + margin.top + margin.bottom);
+
 
       // Add a tooltip div. Here I define the general feature of the tooltip: stuff that do not depend on the data point.
   // Its opacity is set to 0: we don't see it by default.
@@ -211,6 +225,33 @@ d3.csv("Sheet_2_data.csv", function(data) {
       .attr('cx', function(d) {return newX(d.Population)})
       .attr('cy', function(d) {return newY(d.NormalizedDeaths)});
   }
+
+
+      // Add one dot in the legend for each name.
+    var size = 20
+    var allgroups = ["Asia", "Europe", "Americas", "Africa", "Oceania"]
+    leg.selectAll("myrect")
+      .data(data)
+      .enter()
+      .append("circle")
+        .attr("cx", 10)
+        .attr("cy", function(d,i){ return 10 + i*(size+5)}) // 100 is where the first dot appears. 25 is the distance between dots
+        .attr("r", 7)
+        .style("fill", function (d) { return StateColors(d.StateCode) } )
+        .style("opacity", 0.8)
+        .style("stroke", "black")
+
+    // Add labels beside legend dots
+    leg.selectAll("mylabels")
+      .data(data)
+      .enter()
+      .append("text")
+        .attr("x", 10 + size*.8)
+        .attr("y", function(d,i){ return i * (size + 5) + (size/2)}) // 100 is where the first dot appears. 25 is the distance between dots
+        .style("fill", "balck" )
+        .text(function(d){ return d.State})
+        .attr("text-anchor", "left")
+        .style("alignment-baseline", "middle")
 
 })
 
