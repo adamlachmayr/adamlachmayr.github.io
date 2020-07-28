@@ -54,7 +54,7 @@ function update(selectedVar) {
     xAxis.transition().duration(1000).call(d3.axisBottom(x))
 
     // Add Y axis
-    y.domain([0, d3.max(data, function(d) { return +d[Deaths] }) ]);
+    y.domain([0, d3.max(data, function(d) { return +d.Deaths }) ]);
     yAxis.transition().duration(1000).call(d3.axisLeft(y));
 
     // variable u: map data to existing bars
@@ -69,7 +69,7 @@ function update(selectedVar) {
       .transition()
       .duration(1000)
         .attr("x", function(d) { return x(d.FiveYearAgeGroups); })
-        .attr("y", function(d) { return y(d[Deaths]); })
+        .attr("y", function(d) { return y(d.Deaths); })
         .attr("width", x.bandwidth())
         .attr("height", function(d) { return height - y(d[Deaths]); })
         .attr("fill", "#69b3a2")
