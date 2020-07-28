@@ -107,11 +107,12 @@ var yAxisO = yAxis;
 
 
     // Add X axis label:
-  svg.append("text")
-      .attr("text-anchor", "end")
-      .attr("x", width)
-      .attr("y", height+50 )
-      .text("Population");
+svg.append("text")
+    .attr("class", "x label")
+    .attr("text-anchor", "end")
+    .attr("x", width)
+    .attr("y", height - 6)
+    .text("income per capita, inflation-adjusted (dollars)");
 
 
   // A function that change this tooltip when the user hover a point.
