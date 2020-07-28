@@ -54,7 +54,7 @@ function update(selectedVar) {
     xAxis.transition().duration(1000).call(d3.axisBottom(x))
 
     // Add Y axis
-    y.domain([0, d3.max(data, function(d) { return +d[selectedVar] }) ]);
+    y.domain([0, d3.max(data, function(d) { return +d[Deaths] }) ]);
     yAxis.transition().duration(1000).call(d3.axisLeft(y));
 
     // variable u: map data to existing bars
