@@ -51,7 +51,7 @@ function update(selectedVar) {
     data = data.filter( function(d){return d.DrugAlcohol === selectedVar} )
     // X axis
     x.domain(data.map(function(d) { return d.FiveYearAgeGroups; }))
-    xAxis.transition().duration(1000).call(d3.axisBottom(x)).attr("transform", "rotate(-90)")
+    xAxis.transition().duration(1000).call(d3.axisBottom(x))
 
     // Add Y axis
     y.domain([0, d3.max(data, function(d) { return +d.Deaths }) ]);
