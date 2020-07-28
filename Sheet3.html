@@ -71,7 +71,7 @@ function update(selectedVar) {
         .attr("x", function(d) { return x(d.FiveYearAgeGroups); })
         .attr("y", function(d) { return y(d.Deaths); })
         .attr("width", x.bandwidth())
-        .attr("height", function(d) { return height - y(d[Deaths]); })
+        .attr("height", function(d) { return height - y(d.Deaths); })
         .attr("fill", "#69b3a2")
   })
 
