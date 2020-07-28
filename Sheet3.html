@@ -57,13 +57,13 @@ function update(selectedVar) {
     y.domain([0, d3.max(data, function(d) { return +d.Deaths }) ]);
     yAxis.transition().duration(1000).call(d3.axisLeft(y));
 
+          svg
+      .selectAll("rect")
+      .remove()
+
     // variable u: map data to existing bars
     var u = svg.selectAll("rect")
       .data(data)
-
-      svg
-      .selectAll("rect")
-      .remove()
 
     // update bars
     u
