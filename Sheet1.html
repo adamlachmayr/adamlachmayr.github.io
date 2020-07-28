@@ -106,6 +106,13 @@ var yAxisO = yAxis;
   //   .style("padding", "10px")
 
 
+    // Add X axis label:
+  svg.append("text")
+      .attr("text-anchor", "end")
+      .attr("x", width)
+      .attr("y", height+50 )
+      .text("Population");
+
 
   // A function that change this tooltip when the user hover a point.
   // Its opacity is set to 1: we can now see it. Plus it set the text and position of tooltip depending on the datapoint (d)
