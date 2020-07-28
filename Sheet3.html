@@ -65,6 +65,7 @@ function update(selectedVar) {
     var u = svg.selectAll("rect")
       .data(data)
 
+      if(selectedVar == 'Alcohol-induced causes'){
     // update bars
     u
       .enter()
@@ -78,6 +79,21 @@ function update(selectedVar) {
         .attr("height", function(d) { return height - y(d.Deaths); })
         .attr("fill", "#ff8b5d2")
 
+      }else{
+    // update bars
+    u
+      .enter()
+      .append("rect")
+      .merge(u)
+      .transition()
+      .duration(1000)
+        .attr("x", function(d) { return x(d.FiveYearAgeGroups); })
+        .attr("y", function(d) { return y(d.Deaths); })
+        .attr("width", x.bandwidth())
+        .attr("height", function(d) { return height - y(d.Deaths); })
+        .attr("fill", "#ff8b5d2")
+
+      }
 
   })
 
