@@ -245,6 +245,8 @@ svg.append("text")
   // A function that updates the chart when the user zoom and thus new boundaries are available
   function updateChart() {
 
+
+
     // recover the new scale
     var newX = d3.event.transform.rescaleX(x);
     var newY = d3.event.transform.rescaleY(y);
@@ -337,91 +339,11 @@ svg.append("text")
         .attr("text-anchor", "left")
         .style("alignment-baseline", "middle")
 
-    //____________________________________________________________________
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-  // function updateChartC() {
-
-  //   // recover the new scale
-  //   var newX = d3.event.transform.rescaleX(x);
-  //   var newY = d3.event.transform.rescaleY(y);
-
-  //   // update axes with these new boundaries
-  //   xAxis.call(d3.axisBottom(newX))
-  //   yAxis.call(d3.axisLeft(newY))
-
-  //   // update circle position
-  //   scatter
-  //     .selectAll("circle")
-  //     .attr('cx', function(d) {return newX(d.Population)})
-  //     .attr('cy', function(d) {return newY(d.Alc)});
-  // }
-
-
-
-
-
-
-
-  // d3.select("button#a").on("click", function(d) {
-
-
-  //   xAxis.call(d3.axisBottom( xAxisO))
-  //   yAxis.call(d3.axisLeft( yAxisO))
-
-  //   scatter
-  //   .selectAll("circle")
-  //     .attr("cx", function (d) { return x(d.Population); } )
-  //     .attr("cy", function (d) { return y(d.Deaths); } )
-
-
-  // })
-
-  //   d3.select("button#b").on("click", function(d) {
-  //    scatter
-  //   .selectAll("circle")
-  //     .attr("cx", function (d) { return x(d.Population); } )
-  //     .attr("cy", function (d) { return y(d.Drug); } )
-
-  // })
-
-  // d3.select("button#c").on("click", function(d) {
-  //   scatter
-  //   .selectAll("circle")
-  //     .attr("cx", function (d) { return x(d.Population); } )
-  //     .attr("cy", function (d) { return y(d.Alc); } )
-  // })
+    
 
 
 })
 
-// function update(Flag) {
-//   d3.selectAll("circle")
-//       .attr('cx', function(d) {return newX(d.Population)})
-//       .attr('cy', function(d) {return newY()});
-
-//   }
 
  const annotations = [
         {
@@ -490,6 +412,8 @@ svg.append("text")
           .append("g")
           .attr("class", "annotation-group")
           .call(makeAnnotations)
+
+          d3.select("annotation-group").remove()
 
 
 </script>
