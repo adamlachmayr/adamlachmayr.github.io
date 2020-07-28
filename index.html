@@ -246,6 +246,7 @@ svg.append("text")
   function updateChart() {
 
     d3.select("annotation-group").remove()
+    d3.select(".annotation-group").remove()
 
     // recover the new scale
     var newX = d3.event.transform.rescaleX(x);
@@ -413,7 +414,7 @@ svg.append("text")
           .attr("class", "annotation-group")
           .call(makeAnnotations)
 
-          
+
 
 
 </script>
