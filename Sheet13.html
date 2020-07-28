@@ -1,12 +1,24 @@
-<!-- Code from d3-graph-gallery.com -->
+
 <!DOCTYPE html>
 <meta charset="utf-8">
+
+<head>
+<style>
+body {
+  background-color: linen;
+}
+
+h1 {
+  color: maroon;
+  margin-left: 40px;
+}
+</style>
+</head>
 
 <!-- Load d3.js -->
 <script src="https://d3js.org/d3.v4.js"></script>
 
-
-
+<div style="color:Black;text-align:center;font-size: 40px;" id="Header">Alcohol and Drug deaths by state 1999-2018</div>
 
 
 
@@ -16,9 +28,14 @@
   <button id="c" onclick="window.location.href='https://adamlachmayr.github.io/Sheet13.html';" style="width:150px;height:50px;">Drug Deaths</button>
 </div>
 
+
 <!-- Create a div where the graph will take place -->
 <div id="my_dataviz"></div>
 
+<div class="NextButtion" style="width: 150px; text-align: center;float: right;font-size: 16px;">
+  <button id="next" onclick="window.location.href='https://adamlachmayr.github.io/Sheet22.html';" style="width:150px;height:50px;font-size: 16px;">Next View</button>
+
+</div>
 
 <script>
 
