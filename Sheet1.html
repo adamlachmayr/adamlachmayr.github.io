@@ -305,7 +305,7 @@ var yAxisO = yAxis;
 
     // Add labels beside legend dots
     svg.selectAll("mylabels")
-      .data(allgroups)
+      .data(data)
       .enter()
       .append("text")
         .attr("x", 10 + size*.8)
