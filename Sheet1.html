@@ -31,7 +31,7 @@ h1 {
 
 <!-- Create a div where the graph will take place -->
 <div id="my_dataviz"></div>
-
+<div id="Legend"></div>
 <div class="NextButtion" style="width: 150px; text-align: center;float: right;font-size: 16px;">
   <button id="next" onclick="window.location.href='https://adamlachmayr.github.io/Sheet22.html';" style="width:150px;height:50px;font-size: 16px;">Next View</button>
 
@@ -52,6 +52,9 @@ var svg = d3.select("#my_dataviz")
   .append("g")
     .attr("transform",
           "translate(" + margin.left + "," + margin.top + ")");
+
+var leg = d3.select("#my_dataviz")
+
 
       // Add a tooltip div. Here I define the general feature of the tooltip: stuff that do not depend on the data point.
   // Its opacity is set to 0: we don't see it by default.
@@ -157,14 +160,14 @@ var yAxisO = yAxis;
 
 
 
-  //   // Add a clipPath: everything out of this area won't be drawn.
-  // var clip = svg.append("defs").append("svg:clipPath")
-  //     .attr("id", "clip")
-  //     .append("svg:rect")
-  //     .attr("width", width )
-  //     .attr("height", height )
-  //     .attr("x", 0)
-  //     .attr("y", 0);
+    // Add a clipPath: everything out of this area won't be drawn.
+  var clip = svg.append("defs").append("svg:clipPath")
+      .attr("id", "clip")
+      .append("svg:rect")
+      .attr("width", width )
+      .attr("height", height )
+      .attr("x", 0)
+      .attr("y", 0);
 
            // Set the zoom and Pan features: how much you can zoom, on which part, and what to do when there is a zoom
   var zoom = d3.zoom()
