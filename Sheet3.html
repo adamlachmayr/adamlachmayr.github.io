@@ -59,88 +59,7 @@ var svg = d3.select("#my_dataviz")
     .attr("transform",
           "translate(" + margin.left + "," + margin.top + ")");
 
-
-
-// A function that create / update the plot for a given variable:
-function update(selectedVar) {
-
-
-     if(selectedVar == 'Alcohol-induced causes'){
-          svg
-      .selectAll("text")
-      .remove()
-
-
-      // Add X axis label:
-svg.append("text")
-    .attr("class", "x label")
-    .attr("text-anchor", "end")
-    .attr("x", width -300)
-    .attr("y", height +80)
-    .attr("font-size","25px" )
-    .text("Population");
-
-// Add Y axis label:
-    svg.append("text")
-    .attr("class", "y label")
-    .attr("text-anchor", "end")
-    .attr("y", -80)
-    .attr("x", -300)
-    .attr("dy", ".75em")
-    .attr("transform", "rotate(-90)")
-    .attr("font-size","25px" )
-    .text("Deaths");
-
-        // Add Tittle axis label:
-svg.append("text")
-    .attr("class", "x label")
-    .attr("text-anchor", "end")
-    .attr("x", width -100 )
-    .attr("y", 0)
-    .attr("font-size","30px" )
-    .text("Alcohol Deaths Per 5 Year Age Groups");
-
-  }else{
-        svg
-      .selectAll("text")
-      .remove()
-
-      // Add X axis label:
-svg.append("text")
-    .attr("class", "x label")
-    .attr("text-anchor", "end")
-    .attr("x", width -300)
-    .attr("y", height +80)
-    .attr("font-size","25px" )
-    .text("Population");
-
-// Add Y axis label:
-    svg.append("text")
-    .attr("class", "y label")
-    .attr("text-anchor", "end")
-    .attr("y", -80)
-    .attr("x", -300)
-    .attr("dy", ".75em")
-    .attr("transform", "rotate(-90)")
-    .attr("font-size","25px" )
-    .text("Deaths");
-
-        // Add Tittle axis label:
-svg.append("text")
-    .attr("class", "x label")
-    .attr("text-anchor", "end")
-    .attr("x", width -100 )
-    .attr("y", 0)
-    .attr("font-size","30px" )
-    .text("Drug Deaths Per 5 Year Age Groups");
-
-  }
-
-  // Parse the Data
-  d3.csv("Sheet_3_data.csv", function(data) {
-    data = data.filter( function(d){return d.DrugAlcohol === selectedVar} )
-
-    // Initialize the X axis
+// Initialize the X axis
 var x = d3.scaleBand()
   .range([ 0, width ])
   .padding(0.2);
@@ -154,6 +73,69 @@ var y = d3.scaleLinear()
 var yAxis = svg.append("g")
   .attr("class", "myYaxis")
 
+
+// A function that create / update the plot for a given variable:
+function update(selectedVar) {
+
+
+      // Add X axis label:
+svg.append("text")
+    .attr("class", "x label")
+    .attr("text-anchor", "end")
+    .attr("x", width -300)
+    .attr("y", height +80)
+    .attr("font-size","25px" )
+    .text("Population");
+
+// Add Y axis label:
+    svg.append("text")
+    .attr("class", "y label")
+    .attr("text-anchor", "end")
+    .attr("y", -80)
+    .attr("x", -300)
+    .attr("dy", ".75em")
+    .attr("transform", "rotate(-90)")
+    .attr("font-size","25px" )
+    .text("Deaths");
+
+            // Add Tittle axis label:
+tittle = svg.append("text")
+    .attr("class", "x label")
+    .attr("text-anchor", "end")
+    .attr("x", width -100 )
+    .attr("y", 0)
+    .attr("font-size","30px" )
+    .text("Alcohol Deaths Per 5 Year Age Groups");
+
+     if(selectedVar == 'Alcohol-induced causes'){
+
+
+        // Add Tittle axis label:
+tittle.append("text")
+    .attr("class", "x label")
+    .attr("text-anchor", "end")
+    .attr("x", width -100 )
+    .attr("y", 0)
+    .attr("font-size","30px" )
+    .text("Alcohol Deaths Per 5 Year Age Groups");
+
+  }else{
+
+
+        // Add Tittle axis label:
+tittle.append("text")
+    .attr("class", "x label")
+    .attr("text-anchor", "end")
+    .attr("x", width -100 )
+    .attr("y", 0)
+    .attr("font-size","30px" )
+    .text("Drug Deaths Per 5 Year Age Groups");
+
+  }
+
+  // Parse the Data
+  d3.csv("Sheet_3_data.csv", function(data) {
+    data = data.filter( function(d){return d.DrugAlcohol === selectedVar} )
     // X axis
     x.domain(data.map(function(d) { return d.FiveYearAgeGroups; }))
     xAxis.transition().duration(1000).call(d3.axisBottom(x)) .selectAll("text")
