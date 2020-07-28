@@ -50,11 +50,11 @@ function update(selectedVar) {
   d3.csv("Sheet_3_data.csv", function(data) {
 
     // X axis
-    x.domain(data.map(function(d) { return d.FiveYearAgeGroups; }))
+    x.domain(data.filter( function(d){return d.type === selectedVar} ).map(function(d) { return d.FiveYearAgeGroups; }))
     xAxis.transition().duration(1000).call(d3.axisBottom(x))
 
     // Add Y axis
-    y.domain([0, d3.max(data, function(d) { return +d.Deaths }) ]);
+    y.domain([0, d3.max(data.filter( function(d){return d.type === selectedVar} ), function(d) { return +d.Deaths }) ]);
     yAxis.transition().duration(1000).call(d3.axisLeft(y));
 
     // variable u: map data to existing bars
