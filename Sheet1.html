@@ -75,7 +75,7 @@ var leg = d3.select("#Legend")
 //Read the data
 d3.csv("Sheet_1_data.csv", function(data) {
 
-  // Add X axis
+  // Add X axis1
   var x = d3.scaleLinear()
     .domain([0, 2100000000])
     .range([ 0, width ]);
@@ -294,7 +294,7 @@ var yAxisO = yAxis;
       .data(allgroups)
       .enter()
       .append("circle")
-        .attr("cx", 0)
+        .attr("cx", 5)
         .attr("cy", function(d,i){ return 10 + i*(size+5)}) // 100 is where the first dot appears. 25 is the distance between dots
         .attr("r", 7)
         .style("fill", function (d) { return StateColors(d.StateCode) } )
