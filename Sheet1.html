@@ -302,17 +302,17 @@ var yAxisO = yAxis;
         .style("opacity", 0.8)
         .style("stroke", "black")
 
-    // // Add labels beside legend dots
-    // svg.selectAll("mylabels")
-    //   .data(allgroups)
-    //   .enter()
-    //   .append("text")
-    //     .attr("x", 390 + size*.8)
-    //     .attr("y", function(d,i){ return i * (size + 5) + (size/2)}) // 100 is where the first dot appears. 25 is the distance between dots
-    //     .style("fill", function (d) { return StateColors(d.StateCode) } )
-    //     .text(function(d){ return d})
-    //     .attr("text-anchor", "left")
-    //     .style("alignment-baseline", "middle")
+    // Add labels beside legend dots
+    svg.selectAll("mylabels")
+      .data(allgroups)
+      .enter()
+      .append("text")
+        .attr("x", 10 + size*.8)
+        .attr("y", function(d,i){ return i * (size + 5) + (size/2)}) // 100 is where the first dot appears. 25 is the distance between dots
+        .style("fill", function (d) { return StateColors(d.StateCode) } )
+        .text(function(d){ return d.State})
+        .attr("text-anchor", "left")
+        .style("alignment-baseline", "middle")
 
     //____________________________________________________________________
 
