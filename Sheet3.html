@@ -99,7 +99,7 @@ svg.append("text")
     .text("Deaths");
 
             // Add Tittle axis label:
-tittle = svg.append("text")
+var tittle = svg.append("text")
     .attr("class", "x label")
     .attr("text-anchor", "end")
     .attr("x", width -100 )
@@ -108,7 +108,9 @@ tittle = svg.append("text")
     .text("Alcohol Deaths Per 5 Year Age Groups");
 
      if(selectedVar == 'Alcohol-induced causes'){
-
+        svg
+      .selectAll("tittle")
+      .remove()
 
         // Add Tittle axis label:
 tittle.append("text")
@@ -120,6 +122,9 @@ tittle.append("text")
     .text("Alcohol Deaths Per 5 Year Age Groups");
 
   }else{
+        svg
+      .selectAll("tittle")
+      .remove()
 
 
         // Add Tittle axis label:
