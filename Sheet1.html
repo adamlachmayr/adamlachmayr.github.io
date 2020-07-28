@@ -46,7 +46,7 @@ h1 {
 <script>
 
 // set the dimensions and margins of the graph
-var margin = {top: 10, right: 30, bottom: 50, left: 90},
+var margin = {top: 50, right: 30, bottom: 50, left: 90},
     width = 860 - margin.left - margin.right,
     height = 850 - margin.top - margin.bottom;
 
@@ -117,6 +117,15 @@ svg.append("text")
     .attr("transform", "rotate(-90)")
     .attr("font-size","30px" )
     .text("Total Deaths");
+
+        // Add Tittle axis label:
+svg.append("text")
+    .attr("class", "x label")
+    .attr("text-anchor", "end")
+    .attr("x", 0)
+    .attr("y", 0)
+    .attr("font-size","30px" )
+    .text("Total Deaths Vs. Population Per State");
 
 
   // A function that change this tooltip when the user hover a point.
