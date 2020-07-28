@@ -68,10 +68,8 @@ function update(selectedVar) {
       .merge(u)
       .transition()
       .duration(1000)
-        .attr("x", function(d) { return x(d.FiveYearAgeGroups); })
-        .attr("y", function(d) { return y(d.Deaths); })
-        .attr("width", x.bandwidth())
-        .attr("height", function(d) { return height - y(d.Deaths); })
+        .attr("width",0)
+        .attr("height", 0)
         .attr("fill", "#69b3a2")
 
     // update bars
