@@ -47,6 +47,9 @@ var yAxis = svg.append("g")
 // A function that create / update the plot for a given variable:
 function update(selectedVar) {
 
+    svg
+      .selectAll("text")
+      .remove()
 
      if(selectedVar == 'Alcohol-induced causes'){
 
