@@ -254,7 +254,31 @@ var yAxisO = yAxis;
 
 
 
+ // Add one dot in the legend for each name.
+    var size = 20
+    var allgroups = ["Asia", "Europe", "Americas", "Africa", "Oceania"]
+    leg.selectAll("myrect")
+      .data(data)
+      .enter()
+      .append("circle")
+        .attr("cx", 10)
+        .attr("cy", function(d,i){ return 10 + i*(size+5)}) // 100 is where the first dot appears. 25 is the distance between dots
+        .attr("r", 7)
+        .style("fill", function (d) { return StateColors(d.StateCode) } )
+        .style("opacity", 0.8)
+        .style("stroke", "black")
 
+    // Add labels beside legend dots
+    leg.selectAll("mylabels")
+      .data(data)
+      .enter()
+      .append("text")
+        .attr("x", 10 + size*.8)
+        .attr("y", function(d,i){ return i * (size + 5) + (size/2)}) // 100 is where the first dot appears. 25 is the distance between dots
+        .style("fill", "balck" )
+        .text(function(d){ return d.State})
+        .attr("text-anchor", "left")
+        .style("alignment-baseline", "middle")
 
 
 
