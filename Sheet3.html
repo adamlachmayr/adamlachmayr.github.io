@@ -35,10 +35,7 @@ var x = d3.scaleBand()
   .padding(0.2);
 var xAxis = svg.append("g")
   .attr("transform", "translate(0," + height + ")")
-  .call(d3.axisBottom(x))
-  .selectAll("text")
-    .attr("transform", "translate(-10,0)rotate(-45)")
-    .style("text-anchor", "end");
+  
 
 // Initialize the Y axis
 var y = d3.scaleLinear()
@@ -55,7 +52,9 @@ function update(selectedVar) {
     data = data.filter( function(d){return d.DrugAlcohol === selectedVar} )
     // X axis
     x.domain(data.map(function(d) { return d.FiveYearAgeGroups; }))
-    xAxis.transition().duration(1000).call(d3.axisBottom(x))
+    xAxis.transition().duration(1000).call(d3.axisBottom(x)) .selectAll("text")
+    .attr("transform", "translate(-10,0)rotate(-45)")
+    .style("text-anchor", "end")
 
     // Add Y axis
     y.domain([0, d3.max(data, function(d) { return +d.Deaths }) ]);
