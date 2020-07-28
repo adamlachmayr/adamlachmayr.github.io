@@ -238,66 +238,64 @@ var yAxisO = yAxis;
     //       LEGEND              //
 //____________________________________________________________________
 
-    // Add legend: circles
-    var valuesToShow = [10000000, 100000000, 1000000000]
-    var xCircle = 0
-    var xLabel = 0
-    leg
-      .selectAll("legend")
-      .data(valuesToShow)
-      .enter()
-      .append("circle")
-        .attr("cx", xCircle)
-        // .attr("cy", function(d){ return height - 100 - z(d) } )
-        // .attr("r", function(d){ return z(d) })
-        .attr("cy", function(d){ return height } )
-        .attr("r", 10 })
-        .style("fill", "none")
-        .attr("stroke", "black")
-
-    // Add legend: segments
-    leg
-      .selectAll("legend")
-      .data(valuesToShow)
-      .enter()
-      .append("line")
-        .attr('x1', function(d){ return xCircle + z(d) } )
-        .attr('x2', xLabel)
-        .attr('y1', function(d){ return height - 100 - z(d) } )
-        .attr('y2', function(d){ return height - 100 - z(d) } )
-        .attr('stroke', 'black')
-        .style('stroke-dasharray', ('2,2'))
-
-    // Add legend: labels
-    leg
-      .selectAll("legend")
-      .data(valuesToShow)
-      .enter()
-      .append("text")
-        .attr('x', xLabel)
-        .attr('y', function(d){ return height - 100 - z(d) } )
-        .text( function(d){ return d/1000000 } )
-        .style("font-size", 10)
-        .attr('alignment-baseline', 'middle')
-
-    // Legend title
-    leg.append("text")
-      .attr('x', xCircle)
-      .attr("y", height - 100 +30)
-      .text("Population (M)")
-      .attr("text-anchor", "middle")
-
-    // // Add one dot in the legend for each name.
-    // var size = 20
-    // var allgroups = ["Asia", "Europe", "Americas", "Africa", "Oceania"]
-    // svg.selectAll("myrect")
-    //   .data(allgroups)
+    // // Add legend: circles
+    // var valuesToShow = [10000000, 100000000, 1000000000]
+    // var xCircle = 0
+    // var xLabel = 0
+    // leg
+    //   .selectAll("legend")
+    //   .data(valuesToShow)
     //   .enter()
     //   .append("circle")
-    //     .attr("cx", 390)
-    //     .attr("cy", function(d,i){ return 10 + i*(size+5)}) // 100 is where the first dot appears. 25 is the distance between dots
-    //     .attr("r", 7)
-    //     .style("fill", function (d) { return StateColors(d.StateCode) } )
+    //     .attr("cx", xCircle)
+    //     .attr("cy", function(d){ return height - 100 - z(d) } )
+    //     .attr("r", function(d){ return z(d) })
+    //     .style("fill", "none")
+    //     .attr("stroke", "black")
+
+    // // Add legend: segments
+    // leg
+    //   .selectAll("legend")
+    //   .data(valuesToShow)
+    //   .enter()
+    //   .append("line")
+    //     .attr('x1', function(d){ return xCircle + z(d) } )
+    //     .attr('x2', xLabel)
+    //     .attr('y1', function(d){ return height - 100 - z(d) } )
+    //     .attr('y2', function(d){ return height - 100 - z(d) } )
+    //     .attr('stroke', 'black')
+    //     .style('stroke-dasharray', ('2,2'))
+
+    // // Add legend: labels
+    // leg
+    //   .selectAll("legend")
+    //   .data(valuesToShow)
+    //   .enter()
+    //   .append("text")
+    //     .attr('x', xLabel)
+    //     .attr('y', function(d){ return height - 100 - z(d) } )
+    //     .text( function(d){ return d/1000000 } )
+    //     .style("font-size", 10)
+    //     .attr('alignment-baseline', 'middle')
+
+    // // Legend title
+    // leg.append("text")
+    //   .attr('x', xCircle)
+    //   .attr("y", height - 100 +30)
+    //   .text("Population (M)")
+    //   .attr("text-anchor", "middle")
+
+    // Add one dot in the legend for each name.
+    var size = 20
+    var allgroups = ["Asia", "Europe", "Americas", "Africa", "Oceania"]
+    svg.selectAll("myrect")
+      .data(allgroups)
+      .enter()
+      .append("circle")
+        .attr("cx", 390)
+        .attr("cy", function(d,i){ return 10 + i*(size+5)}) // 100 is where the first dot appears. 25 is the distance between dots
+        .attr("r", 7)
+        .style("fill", function (d) { return StateColors(d.StateCode) } )
 
     // // Add labels beside legend dots
     // svg.selectAll("mylabels")
