@@ -288,7 +288,7 @@ var yAxisO = yAxis;
     // Add one dot in the legend for each name.
     var size = 20
     var allgroups = ["Asia", "Europe", "Americas", "Africa", "Oceania"]
-    svg.selectAll("myrect")
+    leg.selectAll("myrect")
       .data(allgroups)
       .enter()
       .append("circle")
