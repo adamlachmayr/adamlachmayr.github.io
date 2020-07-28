@@ -59,19 +59,6 @@ var svg = d3.select("#my_dataviz")
     .attr("transform",
           "translate(" + margin.left + "," + margin.top + ")");
 
-// Initialize the X axis
-var x = d3.scaleBand()
-  .range([ 0, width ])
-  .padding(0.2);
-var xAxis = svg.append("g")
-  .attr("transform", "translate(0," + height + ")")
-
-
-// Initialize the Y axis
-var y = d3.scaleLinear()
-  .range([ height, 0]);
-var yAxis = svg.append("g")
-  .attr("class", "myYaxis")
 
 
 // A function that create / update the plot for a given variable:
@@ -152,6 +139,21 @@ svg.append("text")
   // Parse the Data
   d3.csv("Sheet_3_data.csv", function(data) {
     data = data.filter( function(d){return d.DrugAlcohol === selectedVar} )
+
+    // Initialize the X axis
+var x = d3.scaleBand()
+  .range([ 0, width ])
+  .padding(0.2);
+var xAxis = svg.append("g")
+  .attr("transform", "translate(0," + height + ")")
+
+
+// Initialize the Y axis
+var y = d3.scaleLinear()
+  .range([ height, 0]);
+var yAxis = svg.append("g")
+  .attr("class", "myYaxis")
+
     // X axis
     x.domain(data.map(function(d) { return d.FiveYearAgeGroups; }))
     xAxis.transition().duration(1000).call(d3.axisBottom(x)) .selectAll("text")
