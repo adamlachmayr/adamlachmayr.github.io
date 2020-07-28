@@ -77,11 +77,12 @@ var yAxis = svg.append("g")
 // A function that create / update the plot for a given variable:
 function update(selectedVar) {
 
-    svg
+
+     if(selectedVar == 'Alcohol-induced causes'){
+          svg
       .selectAll("text")
       .remove()
 
-     if(selectedVar == 'Alcohol-induced causes'){
 
       // Add X axis label:
 svg.append("text")
@@ -113,6 +114,10 @@ svg.append("text")
     .text("Alcohol Deaths Per 5 Year Age Groups");
 
   }else{
+        svg
+      .selectAll("text")
+      .remove()
+
       // Add X axis label:
 svg.append("text")
     .attr("class", "x label")
