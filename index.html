@@ -25,19 +25,14 @@ h1 {
 
 <div style="color:Black;text-align:center;font-size: 40px;" id="Header">Alcohol and Drug deaths by state 1999-2018</div>
 
-
-
 <div class="buttons" style="width: 600px; text-align: center;">
   <button id="a" onclick="window.location.href='https://adamlachmayr.github.io/index.html';" style="width:150px;height:50px;">Total Deaths</button>
   <button id="b" onclick="window.location.href='https://adamlachmayr.github.io/Sheet12.html';" style="width:150px;height:50px;">Alcohol Deaths</button>
   <button id="c" onclick="window.location.href='https://adamlachmayr.github.io/Sheet13.html';" style="width:150px;height:50px;">Drug Deaths</button>
 </div>
 
-
-<!-- Create a div where the graph will take place -->
 <div id="my_dataviz" style="float: left;"></div>
 <div id="Legend" style="float: right;height:850px; overflow-y: auto;"></div>
-
 
 <div class="NextButtion" style="width: 150px; text-align: center; position: absolute; bottom:20px; right:20px; font-size: 20px; font-weight: bold;">
   <button id="next" onclick="window.location.href='https://adamlachmayr.github.io/Sheet22.html';" style="width:150px;height:50px;font-size: 20px; font-weight: bold;">Next View</button>
@@ -66,7 +61,7 @@ var leg = d3.select("#Legend")
   .attr("height", 1300 + margin.top + margin.bottom);
 
 
-      // Add a tooltip div. Here I define the general feature of the tooltip: stuff that do not depend on the data point.
+  // Add a tooltip div. Here I define the general feature of the tooltip: stuff that do not depend on the data point.
   // Its opacity is set to 0: we don't see it by default.
   var tooltip = d3.select("#my_dataviz")
     .append("div")
@@ -263,58 +258,7 @@ svg.append("text")
       .attr('cy', function(d) {return newY(d.Deaths)});
   }
 
-//____________________________________________________________________
-    //       LEGEND              //
-//____________________________________________________________________
 
-    // // Add legend: circles
-    // var valuesToShow = [10000000, 100000000, 1000000000]
-    // var xCircle = 0
-    // var xLabel = 0
-    // leg
-    //   .selectAll("legend")
-    //   .data(valuesToShow)
-    //   .enter()
-    //   .append("circle")
-    //     .attr("cx", xCircle)
-    //     .attr("cy", function(d){ return height - 100 - z(d) } )
-    //     .attr("r", function(d){ return z(d) })
-    //     .style("fill", "none")
-    //     .attr("stroke", "black")
-
-    // // Add legend: segments
-    // leg
-    //   .selectAll("legend")
-    //   .data(valuesToShow)
-    //   .enter()
-    //   .append("line")
-    //     .attr('x1', function(d){ return xCircle + z(d) } )
-    //     .attr('x2', xLabel)
-    //     .attr('y1', function(d){ return height - 100 - z(d) } )
-    //     .attr('y2', function(d){ return height - 100 - z(d) } )
-    //     .attr('stroke', 'black')
-    //     .style('stroke-dasharray', ('2,2'))
-
-    // // Add legend: labels
-    // leg
-    //   .selectAll("legend")
-    //   .data(valuesToShow)
-    //   .enter()
-    //   .append("text")
-    //     .attr('x', xLabel)
-    //     .attr('y', function(d){ return height - 100 - z(d) } )
-    //     .text( function(d){ return d/1000000 } )
-    //     .style("font-size", 10)
-    //     .attr('alignment-baseline', 'middle')
-
-    // // Legend title
-    // leg.append("text")
-    //   .attr('x', xCircle)
-    //   .attr("y", height - 100 +30)
-    //   .text("Population (M)")
-    //   .attr("text-anchor", "middle")
-
-    // Add one dot in the legend for each name.
     var size = 20
     var allgroups = ["Asia", "Europe", "Americas", "Africa", "Oceania"]
     leg.selectAll("myrect")
@@ -377,40 +321,7 @@ svg.append("text")
             y: 620,
             dx: 240
           }
-        //,{
-        //   note: {
-        //     label: "Changed connector type to 'curve'",
-        //     title: "d3.annotationLabel",
-        //     wrap: 150
-        //   },
-        //   connector: {
-        //     end: "dot",
-        //     type: "curve",
-        //     //can also add a curve type, e.g. curve: d3.curveStep
-        //     points: [[100, 14],[190, 52]]
-        //   },
-        //   x: 350,
-        //   y: 150,
-        //   dy: 137,
-        //   dx: 262
-        // },{
-          // //below in makeAnnotations has type set to d3.annotationLabel
-          // //you can add this type value below to override that default
-          // type: d3.annotationCalloutCircle,
-          // note: {
-          //   label: "A different annotation type",
-          //   title: "d3.annotationCalloutCircle",
-          //   wrap: 190
-          // },
-        //   //settings for the subject, in this case the circle radius
-        //   subject: {
-        //     radius: 50
-        //   },
-        //   x: 820,
-        //   y: 150,
-        //   dy: 137,
-        //   dx: 102
-        // }
+
         ].map(function(d){ d.color = "#E8336D"; return d})
 
         const makeAnnotations = d3.annotation()
